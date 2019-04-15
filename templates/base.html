@@ -1,28 +1,103 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
 
-    <meta charset="UTF-8">
+	<meta charset="UTF-8">
 	<meta name="description" content="Appetito food app">
 	<meta name="keywords" content="pulse, restaurant, creative, html">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Appetito{% block title %}{% endblock title %}</title>
+	<title>Appetito{% block title %}{% endblock title %}</title>
 
-    <!-- Favicon -->   
-	<link href="img/favicon.ico" rel="shortcut icon"/>
+	<!-- Favicon -->
+	<link href="{% static 'img/favicon.ico' %}" rel="shortcut icon" />
 
 	<!-- Stylesheets -->
-	<link rel="stylesheet" href="css/bootstrap.min.css"/>
-	<link rel="stylesheet" href="css/font-awesome.min.css"/>
-	<link rel="stylesheet" href="css/flaticon.css"/>
-	<link rel="stylesheet" href="css/owl.carousel.css"/>
-	<link rel="stylesheet" href="css/style.css"/>
-	<link rel="stylesheet" href="css/animate.css"/>
-
+	<link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" />
+	<link rel="stylesheet" href="{% static 'css/font-awesome.min.css' %}" />
+	<link rel="stylesheet" href="{% static 'css/flaticon.css' %}" />
+	<link rel="stylesheet" href="{% static 'css/style.css' %}" />
+	<link rel="stylesheet" href="{% static 'css/animate.css' %}" />
+	{% block extra_css %}
+	
+	{% endblock extra_css %}
 </head>
+
 <body>
-    {% block content %}
-    
-    {% endblock content %}
+	<!-- Page Preloder -->
+	<div id="preloder">
+		<div class="loader"></div>
+	</div>
+
+	<!-- Header section -->
+	<header class="header-section">
+		<div class="header-warp">
+			<a href="{% url 'landing' %}">
+				<div class="site-logo">
+					<h2>Appetito<span>.</span></h2>
+				</div>
+			</a>
+			<!-- responsive -->
+			<div class="nav-switch">
+				<i class="fa fa-bars"></i>
+			</div>
+			<!-- menu -->
+			<ul class="main-menu">
+				<li><a href="{% url 'landing' %}" class="{{ nav_home }}">Home</a></li>
+				<li><a href="{% url 'about' %}" class="{{ nav_about }}">Sobre nosotros</a></li>
+				<li><a href="menu.html">Restaurant</a></li>
+				<li><a href="blog.html">News</a></li>
+				<li><a href="contact.html">Contact</a></li>
+				<li><a href="menu.html">Restaurant</a></li>
+			</ul>
+			<div class="header-right d-none">
+				<form class="form-inline d-inline-flex justify-content-center align-items-center">
+					<input class="form-control mr-sm-2" type="search" placeholder="Buscar..." aria-label="Search">
+					<button class="btn bg-dark my-2 my-sm-0 text-light" type="submit">Ñam!</button>
+				</form>
+			</div>
+		</div>
+	</header>
+	<!-- Header section end -->
+
+	<!-- Hero section -->
+	{% block page-info %}{% endblock page-info %}
+	<!-- Hero section end -->
+
+	<!-- Main Section -->
+	<section class="inter-section spad">
+		<div class="container">
+			{% block content %}
+			{% endblock content %}
+		</div>
+	</section>
+	<!-- Main Section End -->
+
+	<!-- Footer section -->
+	<footer class="footer-section">
+		<div class="footer-bg-area set-bg" data-setbg="{% static 'img/footer-bg.jpg' %}">
+			<div class="copyright">
+				<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+				Copyright &copy;<script>
+					document.write(new Date().getFullYear());
+				</script> All rights reserved | This template is made with <i class="fa fa-heart-o"
+					aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
+				<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+			</div>
+		</div>
+	</footer>
+	<!-- Footer section end -->
+
+	<!--====== Javascripts & Jquery ======-->
+	<script src="{% static 'js/jquery-3.2.1.min.js' %}"></script>
+	<script src="{% static 'js/bootstrap.min.js' %}"></script>
+	<script src="{% static 'js/circle-progress.min.js' %}"></script>
+	{% block extra_js %}	
+	{% endblock extra_js %}
+	<!-- Arrancamos todos los JS despues de cargar los estáticos y dinámicos -->
+	<script src="{% static 'js/main.js' %}"></script>
+	
 </body>
+
 </html>

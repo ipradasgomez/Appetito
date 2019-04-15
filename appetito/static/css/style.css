@@ -453,6 +453,7 @@ ol {
 	top: 0;
 	left: 0;
 	z-index: 10;
+	background-color:rgba(0,0,0,0.5);
 }
 
 .header-warp {
@@ -892,10 +893,9 @@ ol {
 =================*/
 
 .page-top-info {
-	height: 678px;
-	text-align: center;
 	display: table;
 	width: 100%;
+	border-bottom: 1px solid grey
 }
 
 .page-top-info .ptf-center {
@@ -905,9 +905,13 @@ ol {
 
 .page-top-info h2 {
 	padding-top: 80px;
-	line-height: normal;
-	font-size: 110px;
+	font-size: 20px;
 	color: #fff;
+	margin-top: 30px;
+	padding-bottom: 10px;
+	font-style: italic;
+	font-variant: small-caps;
+	font-weight: normal
 }
 
 .page-top-info h2 span {
