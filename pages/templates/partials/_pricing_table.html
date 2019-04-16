@@ -1,0 +1,107 @@
+<div class="table-responsive d-flex justify-content-center">
+            <div class="membership-pricing-table">
+                <table>
+                    <tbody>
+                        <tr>
+                            <th class="th-price d-flex align-items-center justify-content-center pricing-title">
+                                <h2><em>Planes<span>.</span></em></h2>
+                            </th>
+                            <!-- Titulos de plances -->
+                            {%for plan in plans%}
+                            <th class="plan-header plan-header-{{plan.class_descr}}">
+                                <div class="header-plan-inner">
+                                    {% if plan.recomendado %}
+                                    <span class="recommended-plan-ribbon">{{ plan.recomendado_text }}</span>
+                                    {% endif %}
+                                    <div class="pricing-plan-name">{{plan}}</div>
+                                    <div class="pricing-plan-price">
+                                        <sup>€</sup>{{plan.precio_pentera}}<span>{{plan.precio_pdecimal}}</span>
+                                    </div>
+                                    <div class="pricing-plan-period">mes</div>
+                                </div>
+                            </th>
+                            {% endfor %}
+                        </tr>
+                        {% if user.is_authenticated %}
+                        <tr>
+                            <td></td>
+                            <td class="action-header">
+                                <a class="btn btn-info">
+                                    Bajar mi plan
+                                </a>
+                            </td>
+                            <td class="action-header">
+                                <div class="current-plan">
+                                    <div class="with-date">Plan actual</div>
+                                    <div><em class="smaller block">Próxima renovación Feb 19, 2015</em></div>
+                                </div>
+                            </td>
+                            <td class="action-header">
+                                <a class="btn btn-success">
+                                    Mejorar a este plan
+                                </a>
+                            </td>
+                        </tr>
+                        {% endif %}
+                        <tr>
+                            <td>Permite restaurantes ilimitados:</td>
+                            {% for plan in plans %}
+                            {% if plan.max_empresas < 1 %}
+                            <td><i class="fa fa-check"></i></td>
+                            {% else %}
+                            <td><i class="fa fa-ban"></i></td>
+                            {% endif %}
+                            {% endfor %}
+                        </tr>
+                        <tr>
+                            <td>Categorías por restaurante:</td>
+                            {% for plan in plans %}
+                            {% if plan.max_categorias == 0 %}
+                            <td><span>Sin límite</span></td>
+                            {% else %}
+                            <td><span>{{plan.max_categorias}}</span></td>
+                            {% endif %}
+                            {% endfor %}
+                        </tr>
+                        <tr>
+                            <td>Productos máximos por categoría:</td>
+                            {% for plan in plans %}
+                            {% if plan.max_productos_x_cat == 0 %}
+                            <td><span>Sin límite</span></td>
+                            {% else %}
+                            <td><span>Hasta {{plan.max_productos_x_cat}} productos</span></td>
+                            {% endif %}
+                            {% endfor %}
+                        </tr>
+                        <tr>
+                            <td>Tags en cada producto:</td>
+                            {% for plan in plans %}
+                            {% if plan.max_tags_x_prod == 0 %}
+                            <td><span>Sin límite</span></td>
+                            {% else %}
+                            <td><span>Hasta {{plan.max_tags_x_prod}} tags</span></td>
+                            {% endif %}
+                            {% endfor %}
+                        </tr>
+                        <tr>
+                            <td>¿Permite anunciar tus productos?:</td>
+                            {% for plan in plans %}
+                            {% if plan.permite_anuncios %}
+                            <td><i class="fa fa-check"></i></td>
+                            {% else %}
+                            <td><i class="fa fa-ban"></i></td>
+                            {% endif %}
+                            {% endfor %}
+                        </tr>
+                        {% if not user.is_authenticated %}
+                        <tr>
+                            <td></td>
+                            {% for plan in plans %}
+                            <td><a href="#{{plan.id}}">Registrar</a></td>
+                            {% endfor %}
+                        </tr>
+                        {% endif %}
+                    </tbody>
+                </table>
+            </div>
+        </div>

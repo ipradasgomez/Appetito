@@ -4,7 +4,7 @@ from plans.models import Plan
 # Create your views here.
 
 def about(request):
-    return render(request, 'pages/about.html', {'nav_about': 'active'})
+    return render(request, 'pages/about.html', {'nav_home': 'active'})
 
 def search(request):
     return render(request, 'pages/search.html', {'nav_search': 'active'})

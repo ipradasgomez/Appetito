@@ -1,17 +1,23 @@
 {% extends "base.html" %}
 {% load static %}
 {% block title %}
- - Sobre Appetito
+- Sobre Appetito
 {% endblock title %}
 {% block page-info %}
 <section class="page-top-info set-bg" data-setbg="{% static 'img/page-top-bg/2.jpg' %}">
-		<div class="ptf-center">
-			<div class="container d-inline-flex">
-				<a href="{% url 'landing' %}"><h2>Home</h2></a>&nbsp;<h2><span>></span></h2>&nbsp;<h2>Sobre</h2>
-			</div>
+	<div class="ptf-center">
+		<div class="container d-inline-flex">
+			<a href="{% url 'landing' %}">
+				<h2>Home</h2>
+			</a>&nbsp;<h2><span>></span></h2>&nbsp;<h2>Sobre</h2>
 		</div>
-	</section>
+	</div>
+</section>
 {% endblock page-info %}
 {% block content %}
-<h1>About</h1>
+<section class="inter-section spad">
+	<div class="container">
+		<h1>About</h1>
+	</div>
+</section>
 {% endblock content %}

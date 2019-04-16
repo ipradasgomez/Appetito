@@ -1,0 +1,30 @@
+{% load static %}
+<!-- Header section -->
+	<header class="header-section">
+		<div class="header-warp">
+			<a href="{% url 'landing' %}">
+				<div class="site-logo">
+					<h2>Appetito<span>.</span></h2>
+				</div>
+			</a>
+			<!-- responsive -->
+			<div class="nav-switch">
+				<i class="fa fa-bars"></i>
+			</div>
+			<!-- menu -->
+			<ul class="main-menu">
+				<li><a href="{% url 'landing' %}" class="{{ nav_home }}">Home</a></li>				
+				<li><a href="menu.html">Restaurant</a></li>
+				<li><a href="blog.html">News</a></li>
+				<li><a href="contact.html">Contact</a></li>
+				<li><a href="menu.html">Restaurant</a></li>
+			</ul>
+			<div class="header-right d-none">
+				<form class="form-inline d-inline-flex justify-content-center align-items-center">
+					<input class="form-control mr-sm-2" type="search" placeholder="Buscar..." aria-label="Search">
+					<button class="btn bg-dark my-2 my-sm-0 text-light" type="submit">Ñam!</button>
+				</form>
+			</div>
+		</div>
+	</header>
+	<!-- Header section end -->

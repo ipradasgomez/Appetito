@@ -12,3 +12,6 @@ https://djangopackages.org/grids/g/admin-styling/
 
 Idea de tops:
 https://p.w3layouts.com/demos/food_template/web/
+
+https://docs.djangoproject.com/en/dev/topics/auth/customizing/#substituting-a-custom-user-model
+https://docs.djangoproject.com/en/dev/topics/auth/customizing/#extending-the-existing-user-model
