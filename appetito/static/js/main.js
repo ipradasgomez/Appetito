@@ -40,6 +40,7 @@ $(window).on('load', function() {
 	/*------------------
 		Hero Slider
 	--------------------*/
+	if($('.hero-slider').length){
 	$('.hero-slider').owlCarousel({
 		loop: true,
 		nav: false,
@@ -71,43 +72,7 @@ $(window).on('load', function() {
 		$('.owl-dots-number').css('marginTop', -av);
 	}
 	currentHSnumber();
-	
-
-
-	/*------------------
-		Testimonials 
-	--------------------*/
-	$('.testimonials-slider').owlCarousel({
-		loop: true,
-		nav: false,
-		dots: true,
-		items: 1,
-		autoplay: true
-	});
-
-
-
-	/*------------------
-		Brands Slider
-	--------------------*/
-	$('.brands-slider').owlCarousel({
-		loop: true,
-		nav: false,
-		dots: false,
-		margin : 40,
-		autoplay: true,
-		responsive : {
-			0 : {
-				items: 2,
-			},
-			480 : {
-				items: 3,
-			},
-			768 : {
-				items: 5,
-			}
-		}
-	});
+	}
 
 	
 	/*------------------
@@ -156,3 +121,10 @@ $(window).on('load', function() {
 
 })(jQuery);
 
+
+/*------------------
+		Auto dismiss messages
+	--------------------*/
+	setTimeout(function(){
+		$('#message').fadeOut('slow');
+	},3000);

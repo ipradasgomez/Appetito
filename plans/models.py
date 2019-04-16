@@ -1,6 +1,13 @@
 from django.db import models
 import math
 # Create your models here.
+
+CLASS_CHOICES = (
+    ('free', 'Blanco'),
+    ('standard', 'Naranja'),
+    ('blue', 'Azul'),
+)
+
 class Plan(models.Model):
     nombre = models.CharField(max_length=30, verbose_name='Nombre del plan')
     max_empresas = models.IntegerField(default=0, verbose_name='Max de empresas (0 = infinito)')
@@ -9,7 +16,7 @@ class Plan(models.Model):
     max_tags_x_prod = models.IntegerField(default=3, verbose_name='Max tag x producto (0= infinito)')
     permite_anuncios = models.BooleanField(default=False, verbose_name='Permitir crear anuncios')
     precio = models.DecimalField(decimal_places=2, max_digits=6, default=0.0)
-    class_descr = models.CharField(max_length = 10, default="free" , verbose_name='Clase CSS Descriptiva')
+    class_descr = models.CharField(max_length = 10, choices=CLASS_CHOICES, default="free" , verbose_name='Clase CSS Descriptiva')
     recomendado = models.BooleanField(default="False", verbose_name='Mostrar como recomendado')
     recomendado_text = models.CharField(max_length=50, null=True, blank=True, verbose_name='Texto de recomendación')
 

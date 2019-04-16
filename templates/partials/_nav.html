@@ -1,30 +1,40 @@
 {% load static %}
 <!-- Header section -->
-	<header class="header-section">
-		<div class="header-warp">
-			<a href="{% url 'landing' %}">
-				<div class="site-logo">
-					<h2>Appetito<span>.</span></h2>
-				</div>
-			</a>
-			<!-- responsive -->
-			<div class="nav-switch">
-				<i class="fa fa-bars"></i>
+<header class="header-section">
+	<div class="header-warp">
+		<a href="{% url 'landing' %}">
+			<div class="site-logo">
+				<h2>Appetito<span>.</span></h2>
 			</div>
-			<!-- menu -->
-			<ul class="main-menu">
-				<li><a href="{% url 'landing' %}" class="{{ nav_home }}">Home</a></li>				
-				<li><a href="menu.html">Restaurant</a></li>
-				<li><a href="blog.html">News</a></li>
-				<li><a href="contact.html">Contact</a></li>
-				<li><a href="menu.html">Restaurant</a></li>
-			</ul>
-			<div class="header-right d-none">
-				<form class="form-inline d-inline-flex justify-content-center align-items-center">
-					<input class="form-control mr-sm-2" type="search" placeholder="Buscar..." aria-label="Search">
-					<button class="btn bg-dark my-2 my-sm-0 text-light" type="submit">Ñam!</button>
-				</form>
-			</div>
+		</a>
+		<!-- responsive -->
+		<div class="nav-switch">
+			<i class="fa fa-bars"></i>
 		</div>
-	</header>
-	<!-- Header section end -->
+		<!-- menu -->
+		<ul class="main-menu">
+			<li><a href="{% url 'landing' %}" class="{{ nav_home }}">Home</a></li>
+			<li><a href="{% url 'landing' %}" class="{{ nav_home }}">Panel de Control</a></li>
+			{% if user.is_authenticated %}
+			<li class="dropdown">
+			<a href="#" class="dropdown-toggle" id="profile-menu" data-toggle="dropdown">Perfil</a>
+				
+				<div class="dropdown-menu" aria-labelledby="profile-menu">
+					<button class="dropdown-item" type="button">Opciones</button>
+					<button class="dropdown-item" type="button">Cerrar Sesión</button>
+				</div>
+			</li>
+			{% else %}
+			<li><a href="{% url 'register' %}" class="{{ nav_register }}"><u>Registrar</u></a></li>
+			<li><a href="{% url 'login' %}" class="{{ nav_login }}"><u>Login</u></a></li>
+			{% endif %}
+		</ul>
+		<div class="header-right d-none">
+			<form class="form-inline d-inline-flex justify-content-center align-items-center">
+				<input class="form-control mr-sm-2" type="search" placeholder="Buscar..." aria-label="Search">
+				<button class="btn bg-dark my-2 my-sm-0 text-light" type="submit">Ñam!</button>
+			</form>
+		</div>
+	</div>
+</header>
+<!-- Header section end -->
