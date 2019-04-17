@@ -13,9 +13,9 @@
 		</div>
 		<!-- menu -->
 		<ul class="main-menu">
-			<li><a href="{% url 'landing' %}" class="{{ nav_home }}">Home</a></li>
-			<li><a href="{% url 'board' %}" class="{{ nav_board }}">Panel de Control</a></li>
+			<li><a href="{% url 'landing' %}" class="{{ nav_home }}">Home</a></li>			
 			{% if user.is_authenticated %}
+			<li><a href="{% url 'board' %}" class="{{ nav_board }}">Panel de Control</a></li>
 			{% if user.is_staff %}
 			<li><a href="/admin">Administración</a></li>
 			{% endif %}

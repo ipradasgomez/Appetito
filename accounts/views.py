@@ -29,8 +29,8 @@ def register(request):
                             #Log despues de registrar
                             user.save()
                             auth.login(request, user)
-                            messages.success(request, 'Felicidades, ya estás contectado')
-                            return redirect('landing')
+                            messages.success(request, '¡Bienvenido a Appetito! Este es tu panel de control... ¡Disfrutalo!')
+                            return redirect('board')
                 else:
                     messages.error(request, 'Las contraseñas no coinciden')
                     return redirect('register')
@@ -53,8 +53,7 @@ def login(request):
             if user is not None:
                 auth.login(request, user)
                 messages.success(request, 'Te has logueado correctamente')
-                #Cambiar por el dashboard
-                return redirect('landing')
+                return redirect('board')
             else:            
                 messages.error(request, 'El usuario o la clave no son correctos')
                 return redirect('login')
