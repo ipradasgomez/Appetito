@@ -822,8 +822,8 @@ ol {
 -----------------------*/
 
 .footer-bg-area {
-	height: 553px;
 	position: relative;
+	padding-top:50px;
 }
 
 .map-warp {
@@ -865,10 +865,8 @@ ol {
 }
 
 .copyright {
-	position: absolute;
 	width: 100%;
-	bottom: 27px;
-	left: 0;
+	padding-bottom:15px;
 	color: #777777;
 	font-size: 14px;
 	text-align: center;
@@ -1405,9 +1403,9 @@ ol {
 	.contact-form-warp {
 		padding: 45px 50px 65px;
 	}
-	.footer-bg-area {
+	/*.footer-bg-area {
 		height: 615px;
-	}
+	}*/
 	.contact-img {
 		display: none;
 	}
@@ -1434,9 +1432,9 @@ ol {
 	.contact-form-warp {
 		padding: 45px 30px 65px;
 	}
-	.footer-bg-area {
+	/*.footer-bg-area {
 		height: 590px;
-	}
+	}*/
 	.section-title h2:after,
 	.section-title h2:before {
 		display: none;
@@ -1480,7 +1478,7 @@ ol {
 	color: #ffffff;
 	font-family: "Raleway", sans-serif;
 	font-weight: 700;
-	margin-bottom: 30px;
+	margin-bottom: 20px;
 	letter-spacing: 0.5px;
 	position: relative;
 	padding-bottom: 15px;
@@ -1547,4 +1545,8 @@ ol {
 
 .widgets.footer-widgets .widget-contact ul li + li {
 	margin-top: 20px;
+}
+
+.footer-widgets>div {
+	padding-bottom:30px;
 }
