@@ -1369,15 +1369,33 @@ ol {
 	}
 	.main-menu li {
 		display: block;
-		border-bottom: 1px solid #ddd;
+		border-bottom: 1px solid #ddd
 	}
-	.main-menu li a {
+	.accordion-as-menu {
+		border-bottom: 1px solid #ddd;
+		padding: 6px 10px !important;
+	}
+	.main-menu li a, .accordion-as-menu {
 		padding: 13px 5px;
 		color: #000;
 	}
-	.main-menu li a:hover {
+	.accordion-as-menu button{
+		color:black;
+	}
+	.accordion-as-menu button:hover, .accordion-as-menu button:focus{
+		text-decoration:none;
+	}
+	.main-menu li a:hover, .accordion-as-menu button:hover {
 		color: #ffc515;
 	}
+	.collapse-menu-element{
+		padding: 0px 30px !important;
+	}
+
+	.collapse-menu-element .card-body{
+		padding: 12px !important;
+	}
+
 	.header-right {
 		display: none;
 	}

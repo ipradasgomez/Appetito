@@ -43,12 +43,17 @@
 	<!-- Main Section End -->
 
 	<!-- Footer inclusion -->
-	{% include "partials/_footer.html" %}
+	{% if not nav_board %}
+		{% include "partials/_footer.html" %}
+	{% else %}
+		{% include "partials/_footer_small.html" %}
+	{% endif %}
 
 	<!--====== Javascripts & Jquery ======-->
 	<script src="{% static 'js/jquery-3.2.1.min.js' %}"></script>
 	<script src="{% static 'js/popper.min.js' %}"></script>
 	<script src="{% static 'js/bootstrap.min.js' %}"></script>
+	
 	<script src="{% static 'js/circle-progress.min.js' %}"></script>	
 	{% block extra_js %}	
 	{% endblock extra_js %}

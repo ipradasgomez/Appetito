@@ -34,6 +34,7 @@ INSTALLED_APPS = [
     'pages.apps.PagesConfig',
     'plans.apps.PlansConfig',
     'accounts.apps.AccountsConfig',
+    'cpanel.apps.CpanelConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

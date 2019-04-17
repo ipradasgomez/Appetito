@@ -14,28 +14,45 @@
 		<!-- menu -->
 		<ul class="main-menu">
 			<li><a href="{% url 'landing' %}" class="{{ nav_home }}">Home</a></li>
-			<li><a href="{% url 'landing' %}" class="{{ nav_home }}">Panel de Control</a></li>
+			<li><a href="{% url 'board' %}" class="{{ nav_board }}">Panel de Control</a></li>
 			{% if user.is_authenticated %}
-				{% if user.is_staff %}
-				<li><a href="/admin">Administración</a></li>
-				{% endif %}
+			{% if user.is_staff %}
+			<li><a href="/admin">Administración</a></li>
 			{% endif %}
-			
+			{% endif %}
+
 			{% if user.is_authenticated %}
-			<li class="dropdown">
-			<a href="#" class="dropdown-toggle" id="profile-menu" data-toggle="dropdown">Perfil</a>
-				
+			<li class="d-md-none">
+				<div id="accordion">
+					<div class="card">
+						<div class="accordion-as-menu" id="headingOne">
+								<button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne"
+									aria-expanded="false" aria-controls="collapseOne">
+									Perfil <i class="fa fa-caret-down"></i>
+								</button>							
+						</div>
+						<div id="collapseOne" class="collapse collapse-menu-element" aria-labelledby="headingOne"
+							data-parent="#accordion">
+							<div class="card-body">Lineas</div>
+						</div>
+					</div>
+				</div>
+			</li>
+			<li class="dropdown d-none d-md-auto">
+				<a href="#" class="dropdown-toggle" id="profile-menu" data-toggle="dropdown">Perfil</a>
 				<div class="dropdown-menu" aria-labelledby="profile-menu">
 					<button class="dropdown-item" type="button">Opciones</button>
 				</div>
 			</li>
-			<li><a href="javascript:{document.getElementById('logout').submit()}">Salir <i class="fa fa-sign-out fa-lg"></i></a></li>
+			<li><a href="javascript:{document.getElementById('logout').submit()}">Salir <i
+						class="fa fa-sign-out fa-lg"></i></a></li>
 			<form action="{% url 'logout' %}" method="POST" id="logout">
-			{% csrf_token %}
-			<input type="hidden">
+				{% csrf_token %}
+				<input type="hidden">
 			</form>
 			{% else %}
-			<li><a href="{% url 'register' %}" class="{{ nav_register }}"><i class="fa fa-id-badge fa-lg"></i> Registrar</a></li>
+			<li><a href="{% url 'register' %}" class="{{ nav_register }}"><i class="fa fa-id-badge fa-lg"></i>
+					Registrar</a></li>
 			<li><a href="{% url 'login' %}" class="{{ nav_login }}"><i class="fa fa-sign-out fa-lg"></i> Login</a></li>
 			{% endif %}
 		</ul>
