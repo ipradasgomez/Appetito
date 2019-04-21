@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+{% load static %}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/sidebar.css' %}" />
+<link rel="stylesheet" href="{% static 'css/cpanel.css' %}" />
+{% endblock extra_css %}
+{% block title %}
+- Opciones de Subscripción
+{% endblock title %}
+{% block page-info %}
+<section class="page-top-info set-bg" data-setbg="{% static 'img/page-top-bg/1.jpg' %}">
+    <div class="ptf-center">
+        <div class="container d-inline-flex">
+            <h2></h2>
+        </div>
+    </div>
+</section>
+{% endblock page-info %}
+{% block content %}
+<div class="wrapper">
+    <!-- Sidebar -->
+    {% include 'cpanel/partials/_sidebar.html' %}
+
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <!-- Alerts -->
+                {% include 'partials/_alerts.html' %}
+            </div>
+            <div class="container">
+                <div class="row pt-2">
+                    <div class="col-12">
+                        <section id="breaking-news">
+                            <div class="sitewidth">
+                                <div class="br-title">Opciones de Subscripción</div>
+                            </div>
+                        </section>
+                    </div>
+                    <div class="col-12 col-md-6">
+                    <div class="card border-success mb-3">
+                            <div class="card-header">Tu plan actual: <strong>{{user.profile.plan}}</strong></div>
+                            <div class="card-body text-success">
+                                <h5 class="card-title">¿Qué tienes?</h5>
+                                <ul>                                    
+                                    <li class="list-group-item"> {% if user.profile.plan.max_empresas < 1 %}
+                                        <p class="desc">Podrás crear restaurantes ilimitados.</p>
+                                        {% else %}
+                                        <p class="desc">Podrás crear hasta {{plan.max_empresas}} restaurante(s)</p>
+                                        {% endif %}
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-6">
+                        {% if higher_plans %}
+                        {% for plan in higher_plans %}
+                        <div class="card border-success mb-3">
+                            <div class="card-header"><h6>Plan <strong>{{plan}}</strong> <a href="{% url 'settings_plan_ascend' plan.id %}"><span class="float-right badge badge-success">Adquirir</span></a></h6></div>
+                            <div class="card-body text-success">
+                                <h5 class="card-title">¿Qué tendrás?</h5>
+                                <ul>
+                                    <li class="list-group-item"> {% if plan.max_empresas < 1 %}
+                                        <p class="desc">Podrás crear restaurantes ilimitados.</p>
+                                        {% else %}
+                                        <p class="desc">Podrás crear hasta {{plan.max_empresas}} restaurante(s)</p>
+                                        {% endif %}
+                                    </li>
+                                    <li class="list-group-item"> {% if plan.max_empresas < 1 %}
+                                        <p class="desc">Podrás crear restaurantes ilimitados.</p>
+                                        {% else %}
+                                        <p class="desc">Podrás crear hasta {{plan.max_empresas}} restaurante(s)</p>
+                                        {% endif %}
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        {% endfor %}
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
+{% block extra_js %}
+<script src="{% static 'js/sidebar.js' %}"></script>
+{% endblock extra_js %}

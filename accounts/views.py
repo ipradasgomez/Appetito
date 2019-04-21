@@ -1,7 +1,12 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, HttpResponse
 from django.contrib import messages, auth
 from django.contrib.auth.models import User
+from django.views.decorators.csrf import csrf_exempt
 # Create your views here.
+
+@csrf_exempt
+def card_token(request):
+    return HttpResponse(status=200)
 
 def register(request):
     if not request.user.is_authenticated:
@@ -27,8 +32,8 @@ def register(request):
                         else:
                             user = User.objects.create_user(username=username, password=repass, email=mail, first_name='', last_name='')
                             #Log despues de registrar
-                            user.save()
                             auth.login(request, user)
+                            request.session.set_expiry(0)
                             messages.success(request, '¡Bienvenido a Appetito! Este es tu panel de control... ¡Disfrutalo!')
                             return redirect('board')
                 else:

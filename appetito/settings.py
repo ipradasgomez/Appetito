@@ -34,7 +34,11 @@ INSTALLED_APPS = [
     'pages.apps.PagesConfig',
     'plans.apps.PlansConfig',
     'accounts.apps.AccountsConfig',
+    #CPANEL
     'cpanel.apps.CpanelConfig',
+    #Settings Apps
+    'CPSettingsPlan.apps.CpsettingsplanConfig',
+    'django_template_maths',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
