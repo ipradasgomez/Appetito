@@ -31,12 +31,13 @@
             <!---->
             <!-- Tags por producto -->
             {% if plan.max_tags_x_prod == 0 %}
-              <p class="desc">Sin límite de tags en tus productos</p>
+            <p class="desc">Sin límite de tags en tus productos</p>
             {% else %}
             <p class="desc">Hasta {{plan.max_tags_x_prod}} tags en cada producto</p>
             {% endif %}
             <ul>
-                <li style="width:50%;font-weight:bold;font-size:30px;"><span class="fa fa-money"></span> €{{plan.precio_pentera}}.{{plan.precio_pdecimal}}</li>
+                <li style="width:50%;font-weight:bold;font-size:30px;"><span class="fa fa-money"></span>
+                    €{{plan.precio_pentera}}.{{plan.precio_pdecimal}}</li>
             </ul>
         </div>
         <div class="social">
@@ -69,7 +70,10 @@
                             <div class="pricing-plan-price">
                                 <sup>€</sup>{{plan.precio_pentera}}<span>{{plan.precio_pdecimal}}</span>
                             </div>
-                            <div class="pricing-plan-period">mes</div>
+                            {% if plan.precio > 0 %}
+                            <div class="pricing-plan-period">(pago único)</div>
+                            {% endif %}
+                            
                         </div>
                     </th>
                     {% endfor %}
@@ -77,26 +81,24 @@
                 {% if user.is_authenticated %}
                 <tr>
                     <td></td>
+                    {% for plan in plans %}
                     <td class="action-header">
-                        <a class="btn btn-info">
-                            Bajar mi plan
-                        </a>
-                    </td>
-                    <td class="action-header">
+                        {% if plan.id == user.profile.plan.id %}
                         <div class="current-plan">
-                            <div class="with-date">Plan actual</div>
-                            <div><em class="smaller block">Próxima renovación Feb 19, 2015</em></div>
+                            <p class="font-weight-light text-success">¡Tu plan actual!</p>
                         </div>
-                    </td>
-                    <td class="action-header">
-                        <a class="btn btn-success">
-                            Mejorar a este plan
+                        {% endif %}
+                        {% if plan.id > user.profile.plan.id  %}
+                        <a href="{% url 'settings_plan_ascend' plan.id %}" class="btn btn-success text-light">
+                            ¡Mejorar a este plan!
                         </a>
+                        {% endif %}
                     </td>
+                    {% endfor %}
                 </tr>
                 {% endif %}
                 <tr>
-                    <td>Permite restaurantes ilimitados:</td>
+                    <td>Permite ubicaciones ilimitadas:</td>
                     {% for plan in plans %}
                     {% if plan.max_empresas < 1 %}
                     <td><i class="fa fa-check"></i></td>

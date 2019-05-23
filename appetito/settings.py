@@ -11,7 +11,6 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
 import os
-
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -32,12 +31,18 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'pages.apps.PagesConfig',
+    #Models
     'plans.apps.PlansConfig',
+    'restaurantes.apps.RestaurantesConfig',
     'accounts.apps.AccountsConfig',
     #CPANEL
     'cpanel.apps.CpanelConfig',
     #Settings Apps
     'CPSettingsPlan.apps.CpsettingsplanConfig',
+    'CPSettingsRestaurante.apps.CpsettingsrestauranteConfig',    
+    'CPSettingsLocations.apps.CpsettingslocationsConfig',
+    #Others
+    'crispy_forms',
     'django_template_maths',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -45,6 +50,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    #'mapwidgets',
 ]
 
 MIDDLEWARE = [
@@ -130,6 +136,10 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'appetito/static')
 ]
 
+#MEDIA
+MEDIA_URL = '/'
+MEDIA_ROOT = os.path.join(BASE_DIR, '/')
+
 # Messages
 from django.contrib.messages import constants as messages
 MESSAGE_TAGS = {
@@ -138,3 +148,8 @@ MESSAGE_TAGS = {
     messages.SUCCESS: 'success',
     messages.WARNING: 'warning',
 }
+
+#Crispy templates
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
+GDAL_LIBRARY_PATH='C:\Program File\GDAL\gdal204.dll'

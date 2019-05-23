@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/sidebar.css' %}" />
+<link rel="stylesheet" href="{% static 'css/cpanel.css' %}" />
+{% endblock extra_css %}
+{% block title %}
+- Crear restaurante
+{% endblock title %}
+{% block page-info %}
+<section class="page-top-info set-bg" data-setbg="{% static 'img/page-top-bg/1.jpg' %}">
+    <div class="ptf-center">
+        <div class="container d-inline-flex">
+            <h2>Crear restaurante</h2>
+        </div>
+    </div>
+</section>
+{% endblock page-info %}
+{% block content %}
+<div class="wrapper">
+    <!-- Sidebar -->
+    {% include 'cpanel/partials/_sidebar.html' %}
+
+    <div class="container">
+    <h2>Crea tu empresa</h2><br/>
+    	{% include 'partials/_alerts.html' %}
+    <form method="post" enctype="multipart/form-data" novalidate>
+    {{ form.source.errors }}
+    {% csrf_token %}
+        {% crispy form %}
+        </form>
+    </div>
+</div>
+{% endblock content %}
+{% block extra_js %}
+<script src="{% static 'js/sidebar.js' %}"></script>
+{% endblock extra_js %}

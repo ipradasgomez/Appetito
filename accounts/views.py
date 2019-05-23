@@ -35,7 +35,7 @@ def register(request):
                             auth.login(request, user)
                             request.session.set_expiry(0)
                             messages.success(request, '¡Bienvenido a Appetito! Este es tu panel de control... ¡Disfrutalo!')
-                            return redirect('board')
+                            return redirect('cpanel_board')
                 else:
                     messages.error(request, 'Las contraseñas no coinciden')
                     return redirect('register')
@@ -58,7 +58,7 @@ def login(request):
             if user is not None:
                 auth.login(request, user)
                 messages.success(request, 'Te has logueado correctamente')
-                return redirect('board')
+                return redirect('cpanel_board')
             else:            
                 messages.error(request, 'El usuario o la clave no son correctos')
                 return redirect('login')

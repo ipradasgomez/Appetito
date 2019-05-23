@@ -11,7 +11,7 @@
 <section class="page-top-info set-bg" data-setbg="{% static 'img/page-top-bg/1.jpg' %}">
     <div class="ptf-center">
         <div class="container d-inline-flex">
-            <h2></h2>
+            <h2>Subscripciones</h2>
         </div>
     </div>
 </section>
@@ -43,9 +43,9 @@
                                 <h5 class="card-title">¿Qué tienes?</h5>
                                 <ul>                                    
                                     <li class="list-group-item"> {% if user.profile.plan.max_empresas < 1 %}
-                                        <p class="desc">Podrás crear restaurantes ilimitados.</p>
+                                        <p class="desc">Podrás crear ubicaciones ilimitadas.</p>
                                         {% else %}
-                                        <p class="desc">Podrás crear hasta {{plan.max_empresas}} restaurante(s)</p>
+                                        <p class="desc">Podrás crear hasta {{user.profile.plan.max_empresas}} ubicación(es)</p>
                                         {% endif %}
                                     </li>
                                 </ul>
@@ -60,10 +60,11 @@
                             <div class="card-body text-success">
                                 <h5 class="card-title">¿Qué tendrás?</h5>
                                 <ul>
-                                    <li class="list-group-item"> {% if plan.max_empresas < 1 %}
-                                        <p class="desc">Podrás crear restaurantes ilimitados.</p>
+                                    <li class="list-group-item"> 
+                                        {% if plan.max_empresas < 1 %}
+                                        <p class="desc">Podrás crear ubicaciones ilimitadas.</p>
                                         {% else %}
-                                        <p class="desc">Podrás crear hasta {{plan.max_empresas}} restaurante(s)</p>
+                                        <p class="desc">Podrás crear hasta {{plan.max_empresas}} ubicación(es)</p>
                                         {% endif %}
                                     </li>
                                     <li class="list-group-item"> {% if plan.max_empresas < 1 %}

@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% load static %}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/sidebar.css' %}" />
+<link rel="stylesheet" href="{% static 'css/cpanel.css' %}" />
+{% endblock extra_css %}
+{% block title %}
+- Ubicaciones
+{% endblock title %}
+{% block page-info %}
+<section class="page-top-info set-bg" data-setbg="{% static 'img/page-top-bg/1.jpg' %}">
+    <div class="ptf-center">
+        <div class="container d-inline-flex">
+            <h2>Opciones: Lista de ubicaciones</h2>
+        </div>
+    </div>
+</section>
+{% endblock page-info %}
+{% block content %}
+<div class="wrapper">
+    <!-- Sidebar -->
+    {% include 'cpanel/partials/_sidebar.html' %}
+
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <!-- Alerts -->
+                {% include 'partials/_alerts.html' %}
+            </div>
+            <div class="container">
+                <div class="row">
+                    <ul class="list-group col-12 mt-2">
+                    {% if user.profile.restaurante.direcciones__set is None %}
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            Aún no has añadido ubicaciones a tu restaurante.                           
+                        </li>
+                        {%else%}
+                        {% for loc in user.profile.restaurante.direcciones__set %}
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            Cras justo odio
+                            <a href="" class="badge badge-danger badge-pill text-light">Eliminar</a>
+                        </li>
+                        {% endfor %}
+                    {% endif %}
+                    </ul>
+                </div>
+                <div class="row">
+                <div class="col-12">
+                <a href="{% url 'settings_loc_create' %}" class="btn btn-primary float-right text-light">Añadir nueva ubicación</a>
+                </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
+{% block extra_js %}
+<script src="{% static 'js/sidebar.js' %}"></script>
+{% endblock extra_js %}

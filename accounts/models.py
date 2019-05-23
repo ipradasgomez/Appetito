@@ -3,11 +3,13 @@ from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from plans.models import Plan
+from restaurantes.models import Restaurante
 # Create your models here.
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     plan = models.ForeignKey(Plan, default=1, on_delete=models.SET_DEFAULT)
+    restaurante = models.OneToOneField(Restaurante, on_delete=models.CASCADE, null=True, default=None, related_name = 'restaurante')
 
 def plan_or_default(self):
     return self.plan or Plan.objects.get().first()
