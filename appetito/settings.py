@@ -137,8 +137,8 @@ STATICFILES_DIRS = [
 ]
 
 #MEDIA
-MEDIA_URL = '/'
-MEDIA_ROOT = os.path.join(BASE_DIR, '/')
+MEDIA_URL = 'media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, '/media')
 
 # Messages
 from django.contrib.messages import constants as messages
@@ -152,4 +152,4 @@ MESSAGE_TAGS = {
 #Crispy templates
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
-GDAL_LIBRARY_PATH='C:\Program File\GDAL\gdal204.dll'
+print(BASE_DIR)

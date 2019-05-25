@@ -109,7 +109,13 @@
                     <h5>Busca tu localización</h5>
                         <input id="pac-input" class="controls" type="text" placeholder="Search Box">
                         <div id="map"></div>
-                        <button type="button" class="btn btn-success">Success</button>
+                        <form action="" method="POST">
+                        {%csrf_token%}
+                        <input id="lat" hidden name="lat" class="form-control form-control-lg" type="text" placeholder="lat">
+                        <input id="long" hidden name="long" class="form-control form-control-lg" type="text" placeholder="long">
+                        <input id="dir" name="dir" required class="form-control form-control-lg" type="text" placeholder="Dirección: Calle La Roda Nº 2, 2ºB">
+                        <button id="submitbtn" type="submit" disabled class="btn btn-success">Añadir</button>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -140,17 +146,50 @@ function initAutocomplete() {
             
         //Add listener
         map.addListener("click", function (event) {
+          $('#submitbtn').prop('disabled', false);
             var latitude = event.latLng.lat();
             var longitude = event.latLng.lng();
-            console.log( latitude + ', ' + longitude );
-            // Center of map
-            map.panTo(new google.maps.LatLng(latitude,longitude));
-            markers.forEach(function (m){m.setMap(null)});
-            markers.push(new google.maps.Marker({
+            $('#lat').val(latitude);
+            $('#long').val(longitude);
+            //Funcion para rellenar la direccion
+            marker = new google.maps.Marker({
               map: map,
               icon: 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png',
               position: event.latLng
-            }));
+            })
+            autoCompletar(marker)
+            // Center of map
+            map.panTo(new google.maps.LatLng(latitude,longitude));
+            markers.forEach(function (m){m.setMap(null)});
+            markers.push(marker);
+            
+
+            //Funcion para rellnar el input de direccion
+            function autoCompletar(marcador) {
+                  if(marcador)
+                  {
+                      var pos=marcador.getPosition()
+                      consultaGoogle(pos.lat()+','+pos.lng());                      
+                                   
+                      
+                  }
+              }
+
+              //Funcion ajax a google
+              function consultaGoogle(consulta){
+                  $.ajax({
+                      type: "GET",
+                      async:false,
+                      url: 'https://maps.google.com/maps/api/geocode/json?key=AIzaSyDbA0mJ4aoUWtt1svmeoPvVJ-bMFwQyK8k&address='+encodeURI(consulta)
+                  }).done(function ( res ) {
+                      if(res!='ERROR'){
+                        $('input#dir').val(JSON.stringify(res.results[0].formatted_address).replace(/['"]+/g, ''));
+                      }else{
+                        $('input#dir').val("Error, escriba dirección manual"); 
+                      }
+                  });
+                }
+
         }); //end addListener
         var markers = [];
         // Listen for the event fired when the user selects a prediction and retrieve
@@ -198,6 +237,8 @@ function initAutocomplete() {
               bounds.extend(place.geometry.location);
             }
           });
+
+          
           map.fitBounds(bounds);
 
           

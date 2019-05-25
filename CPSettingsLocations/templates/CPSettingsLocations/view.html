@@ -11,7 +11,7 @@
 <section class="page-top-info set-bg" data-setbg="{% static 'img/page-top-bg/1.jpg' %}">
     <div class="ptf-center">
         <div class="container d-inline-flex">
-            <h2>Opciones: Lista de ubicaciones</h2>
+            <h2>Lista de ubicaciones</h2>
         </div>
     </div>
 </section>
@@ -30,25 +30,33 @@
             <div class="container">
                 <div class="row">
                     <ul class="list-group col-12 mt-2">
-                    {% if user.profile.restaurante.direcciones__set is None %}
+                    {% if user.profile.restaurante.direcciones.all.count == 0 %}
                         <li class="list-group-item d-flex justify-content-between align-items-center">
                             Aún no has añadido ubicaciones a tu restaurante.                           
                         </li>
-                        {%else%}
-                        {% for loc in user.profile.restaurante.direcciones__set %}
+                    {%else%}
+                        {% for loc in user.profile.restaurante.direcciones.all %}
                         <li class="list-group-item d-flex justify-content-between align-items-center">
-                            Cras justo odio
-                            <a href="" class="badge badge-danger badge-pill text-light">Eliminar</a>
+                            {{ loc.direccion }}
+                            <a href="{% url 'settings_loc_delete' loc.id%}" class="badge badge-danger badge-pill text-light">Eliminar</a>
                         </li>
                         {% endfor %}
                     {% endif %}
                     </ul>
                 </div>
+                {% if user.profile.restaurante.direcciones.all.count < user.profile.plan.max_empresas %}
                 <div class="row">
-                <div class="col-12">
+                <div class="col-12">                
                 <a href="{% url 'settings_loc_create' %}" class="btn btn-primary float-right text-light">Añadir nueva ubicación</a>
                 </div>
                 </div>
+                {%else%}
+                <div class="row">
+                <div class="col-12">                
+                <p>Has alcanzado tu máximo de direcciones. Puedes eliminar alguna o ascender de plan.</p>
+                </div>
+                </div>
+                {% endif %}
             </div>
         </div>
     </div>

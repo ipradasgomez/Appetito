@@ -32,7 +32,6 @@ def rest_settings_update(request):
         cambios=None
         if None is not request.POST['nombre'].strip() is not '':
             request.user.profile.restaurante.nombre = request.POST['nombre'].strip()
-            messages.success(request, "¡Cambios guardados!")
             cambios=1
 
         if None is not request.POST['descr'].strip() is not '':
