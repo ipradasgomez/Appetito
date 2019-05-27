@@ -35,12 +35,14 @@ INSTALLED_APPS = [
     'plans.apps.PlansConfig',
     'restaurantes.apps.RestaurantesConfig',
     'accounts.apps.AccountsConfig',
+    'cartas.apps.CartasConfig',
     #CPANEL
     'cpanel.apps.CpanelConfig',
     #Settings Apps
     'CPSettingsPlan.apps.CpsettingsplanConfig',
     'CPSettingsRestaurante.apps.CpsettingsrestauranteConfig',    
     'CPSettingsLocations.apps.CpsettingslocationsConfig',
+    'CPSettingsCarta.apps.CpsettingscartaConfig',
     #Others
     'crispy_forms',
     'django_template_maths',

@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% load static %}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/sidebar.css' %}" />
+<link rel="stylesheet" href="{% static 'css/cpanel.css' %}" />
+{% endblock extra_css %}
+{% block title %}
+- Carta
+{% endblock title %}
+{% block page-info %}
+<section class="page-top-info set-bg" data-setbg="{% static 'img/page-top-bg/1.jpg' %}">
+    <div class="ptf-center">
+        <div class="container d-inline-flex">
+            <h2>Gestión de Carta</h2>
+        </div>
+    </div>
+</section>
+{% endblock page-info %}
+{% block content %}
+<div class="wrapper">
+    <!-- Sidebar -->
+    {% include 'cpanel/partials/_sidebar.html' %}
+
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <!-- Alerts -->
+                {% include 'partials/_alerts.html' %}
+            </div>
+            <div class="container">
+                <div class="row">
+                    Lista de categorias con platos. Modal crear categoria y enlace a crear platos.
+                </div>                
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
+{% block extra_js %}
+<script src="{% static 'js/sidebar.js' %}"></script>
+{% endblock extra_js %}
