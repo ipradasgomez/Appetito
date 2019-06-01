@@ -30,31 +30,34 @@
             <div class="container">
                 <div class="row">
                     <ul class="list-group col-12 mt-2">
-                    {% if user.profile.restaurante.direcciones.all.count == 0 %}
+                        {% if user.profile.restaurante.direcciones.all.count == 0 %}
                         <li class="list-group-item d-flex justify-content-between align-items-center">
-                            Aún no has añadido ubicaciones a tu restaurante.                           
+                            Aún no has añadido ubicaciones a tu restaurante.
                         </li>
-                    {%else%}
+                        {%else%}
                         {% for loc in user.profile.restaurante.direcciones.all %}
                         <li class="list-group-item d-flex justify-content-between align-items-center">
-                            {{ loc.direccion }}
-                            <a href="{% url 'settings_loc_delete' loc.id%}" class="badge badge-danger badge-pill text-light">Eliminar</a>
+                        <div class="mapouter"><div class="gmap_canvas"><iframe width="600" height="500" id="gmap_canvas" src="https://maps.google.com/maps?lat=36.529629&lon-4.642678&z=6&output=embed" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"></iframe></div><style>.mapouter{position:relative;text-align:right;height:150px;width:200px;}.gmap_canvas {overflow:hidden;background:none!important;height:150px;width:200px;}</style></div>
+                            <p>{{ loc.direccion }}</p>
+                            <a href="{% url 'settings_loc_delete' loc.id%}"
+                                class="badge badge-danger badge-pill text-light">Eliminar</a>
                         </li>
                         {% endfor %}
-                    {% endif %}
+                        {% endif %}
                     </ul>
                 </div>
-                {% if user.profile.restaurante.direcciones.all.count < user.profile.plan.max_empresas %}
+                {% if user.profile.restaurante.direcciones.all.count < user.profile.plan.max_empresas or user.profile.plan.max_empresas is 0 %}
                 <div class="row">
-                <div class="col-12">                
-                <a href="{% url 'settings_loc_create' %}" class="btn btn-primary float-right text-light">Añadir nueva ubicación</a>
-                </div>
+                    <div class="col-12">
+                        <a href="{% url 'settings_loc_create' %}" class="btn btn-primary float-right text-light">Añadir
+                            nueva ubicación</a>
+                    </div>
                 </div>
                 {%else%}
                 <div class="row">
-                <div class="col-12">                
-                <p>Has alcanzado tu máximo de direcciones. Puedes eliminar alguna o ascender de plan.</p>
-                </div>
+                    <div class="col-12">
+                        <p>Has alcanzado tu máximo de direcciones. Puedes eliminar alguna o ascender de plan.</p>
+                    </div>
                 </div>
                 {% endif %}
             </div>

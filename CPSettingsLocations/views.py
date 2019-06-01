@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from restaurantes.models import Direccion
 from django.contrib import messages
@@ -19,6 +19,7 @@ def location_settings_create(request):
             messages.success(request, "Dirección creada con éxito.")
         else:
             messages.success(request, "Has alcanzado el límite máximo de direcciones.")
+        return redirect('settings_loc_view')
 
     context= None
     return render(request, 'CPSettingsLocations/create.html', context)

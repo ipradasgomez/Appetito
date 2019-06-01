@@ -29,13 +29,119 @@
             </div>
             <div class="container">
                 <div class="row">
-                    Lista de categorias con platos. Modal crear categoria y enlace a crear platos.
-                </div>                
+                    {% if user.profile.restaurante.categorias.count == 0 %}
+                    <div class="col-12 pt-2">Aún no tienes categorías</div>
+                    {% else %}                    
+                    {% for categoria in user.profile.restaurante.categorias.all %}
+                    <div class="col-12 col-md-6 pt-2">
+                        <ul class="list-group">
+                        <li class="list-group-item">
+                        <h4 class="list-group-item-text">{{categoria}}<form method="POST" action="{% url 'settings_menu_removecat' %}" class="float-right">{% csrf_token %}<input type="hidden" name="deletecatid" value="{{categoria.id}}"><button type="submit" class="badge badge-danger">Borrar</button></form><button data-selector="editcat" data-catname="{{categoria}}" data-cat="{{categoria.id}}" data-toggle="modal" data-target="#editCat" class="badge badge-info float-right">Editar</button></h4>
+                        </li>                    
+                                {% if categoria.platos.count == 0 %}
+                                 <li class="list-group-item">
+                                <h6 class="list-group-item-text">Aún no contiene platos</h6>
+                                </li>
+                                {% else %}
+                                {% for plato in categoria.platos.all %}
+                                 <li class="list-group-item">
+                                <h6 class="list-group-item-text">India</h6>
+                                </li>
+                                {% endfor %}
+                                {% endif %}
+                                {% if categoria.platos.all.count < user.profile.plan.max_productos_x_cat or user.profile.plan.max_productos_x_cat is 0 %}
+                                 <li class="list-group-item">
+                                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                                        Añadir plato
+                                    </button>
+                                </li>
+                                {% endif %}
+
+                            </li>
+                        </ul>
+                    </div>
+                    {% endfor %}
+                    {% endif %}
+                    {% if user.profile.restaurante.categorias.all.count < user.profile.plan.max_categorias or user.profile.plan.max_categorias is 0 %}
+                    <div class="col-12">
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#createCat">
+                            Añadir categoría
+                        </button>
+                    </div>
+                    {% endif %}
+                </div>
             </div>
+        </div>
+    </div>
+</div>
+<!-- Modal Crear Categoria -->
+<div class="modal fade" id="createCat" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Añadir categoría</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form method="POST" action="{% url 'settings_menu_addCat' %}">
+            {% csrf_token %}
+            <div class="modal-body">
+                <div class="input-group input-group-sm mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroup-sizing-sm">Nombre de la categoría</span>
+                    </div>
+                    <input type="text" class="form-control" aria-label="Small" name="catname" aria-describedby="inputGroup-sizing-sm">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                <button type="submit" class="btn btn-primary">Crear</button>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Editar Categoria -->
+<div class="modal fade" id="editCat" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Renombrar <span class="currentCatName"></span></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form method="POST" action="{% url 'settings_menu_editCat' %}">
+            {% csrf_token %}
+            <div class="modal-body">
+                <div class="input-group input-group-sm mb-3">
+                    <div class="input-group-prepend">
+                    <input type="hidden" name="catidedit" id="catidedit" value="">
+                        <span class="input-group-text" id="inputGroup-sizing-sm">Nuevo nombre de la categoría</span>
+                    </div>
+                    <input type="text" class="form-control" aria-label="Small" name="newcatname" aria-describedby="inputGroup-sizing-sm">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                <button type="submit" class="btn btn-primary">Crear</button>
+            </div>
+            </form>
         </div>
     </div>
 </div>
 {% endblock content %}
 {% block extra_js %}
 <script src="{% static 'js/sidebar.js' %}"></script>
+<script>
+$('[data-selector="editcat"').off('click').on('click', function(e){
+    e.preventDefault();
+    $('#catidedit').val(e.target.dataset.cat);
+    $('.currentCatName')[0].innerHTML=e.target.dataset.catname;
+})
+</script>
 {% endblock extra_js %}
