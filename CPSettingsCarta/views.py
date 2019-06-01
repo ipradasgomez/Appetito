@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
-from cartas.models import Categoria
+from cartas.models import Categoria, Plato
 from django.contrib import messages
 @login_required(login_url='/account/login')
 def menu_settings_view(request):
@@ -45,4 +45,9 @@ def menu_food_create(request):
 
 @login_required(login_url='/account/login')
 def menu_food_remove(request):
-    pass
+    if request.POST['deletefoodid'] and request.POST['deletefoodid'].strip() != '' and Plato.filter(pk=request.POST['deletecatid']).exists():
+        Plato.objects.filter(pk=request.POST['deletefoodid']).delete()
+        messages.success(request, 'Plato eliminado.')
+    else:
+        messages.error(request, "Imposible eliminar el plato.")
+    return redirect('settings_menu_view')
