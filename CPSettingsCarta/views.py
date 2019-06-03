@@ -2,9 +2,14 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from cartas.models import Categoria, Plato
 from django.contrib import messages
+from cartas.forms import PlatoCreateForm
+
 @login_required(login_url='/account/login')
-def menu_settings_view(request):
-    return render(request, 'CPSettingsCarta/index.html')
+def menu_cat_view(request):
+    context = {
+        'foodForm' : PlatoCreateForm()
+    }
+    return render(request, 'CPSettingsCarta/index.html', context)
 
 @login_required(login_url='/account/login')
 def menu_cat_create(request):
@@ -41,7 +46,22 @@ def menu_cat_edit(request):
 
 @login_required(login_url='/account/login')
 def menu_food_create(request):
-    pass
+    if request.POST:
+        if request.user.profile.restaurante.categorias.filter(pk=request.POST['categoria_id']).exists():
+            categoria = request.user.profile.restaurante.categorias.get(pk=request.POST['categoria_id'])
+            if categoria.platos.count() < request.user.profile.plan.max_productos_x_cat:
+                form = PlatoCreateForm(request.POST, request.FILES)
+                if form.is_valid():
+                    plato = form.save(commit=False)
+                    categoria.platos.add(plato, bulk=False)
+                    categoria.save()
+                else:
+                    messages.error(request, "Se han encontrado errores: "+' '.join(form.errors))
+            else:
+                messages.error(request, 'Esta categoría no acepta más productos... ¡Incrementa tu plan!')
+        else:
+            messages.error(request, 'No puedes añadir un plato a esta categoría.')
+    return redirect('settings_menu_view')
 
 @login_required(login_url='/account/login')
 def menu_food_remove(request):
