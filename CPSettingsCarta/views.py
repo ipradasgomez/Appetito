@@ -65,9 +65,13 @@ def menu_food_create(request):
 
 @login_required(login_url='/account/login')
 def menu_food_remove(request):
-    if request.POST['deletefoodid'] and request.POST['deletefoodid'].strip() != '' and Plato.filter(pk=request.POST['deletecatid']).exists():
-        Plato.objects.filter(pk=request.POST['deletefoodid']).delete()
+    if request.POST['foodid'] and request.POST['foodid'].strip() != '' and Plato.objects.filter(pk=request.POST['foodid']).exists():
+        Plato.objects.filter(pk=request.POST['foodid']).delete()
         messages.success(request, 'Plato eliminado.')
     else:
         messages.error(request, "Imposible eliminar el plato.")
+    return redirect('settings_menu_view')
+
+@login_required(login_url='/account/login')
+def menu_food_edit(request, foodId):
     return redirect('settings_menu_view')
