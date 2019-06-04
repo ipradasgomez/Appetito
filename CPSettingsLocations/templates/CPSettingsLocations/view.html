@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load static %}
+{% load location_to_google %}
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'css/sidebar.css' %}" />
 <link rel="stylesheet" href="{% static 'css/cpanel.css' %}" />
@@ -36,11 +37,21 @@
                         </li>
                         {%else%}
                         {% for loc in user.profile.restaurante.direcciones.all %}
-                        <li class="list-group-item d-flex justify-content-between align-items-center">
-                        <div class="mapouter"><div class="gmap_canvas"><iframe width="600" height="500" id="gmap_canvas" src="https://maps.google.com/maps?lat=36.529629&lon-4.642678&z=6&output=embed" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"></iframe></div><style>.mapouter{position:relative;text-align:right;height:150px;width:200px;}.gmap_canvas {overflow:hidden;background:none!important;height:150px;width:200px;}</style></div>
-                            <p>{{ loc.direccion }}</p>
-                            <a href="{% url 'settings_loc_delete' loc.id%}"
-                                class="badge badge-danger badge-pill text-light">Eliminar</a>
+                        <li class="list-group-item row">
+                            <div class="col-12">
+                                <address class="d-inline">
+                                    <strong>{{loc.direccion}}</strong>
+                                </address>
+                                <a href="{% url 'settings_loc_delete' loc.id%}"
+                                    class="d-inline float-right badge badge-danger badge-pill text-light">Eliminar</a>
+                            </div>
+
+
+                            <div class="col-sm-12">
+                                <iframe width="100%" height="350" frameborder="0" scrolling="no" marginheight="0"
+                                    marginwidth="0"
+                                    src="https://maps.google.co.uk/maps?f=q&source=s_q&hl=es&geocode=&q={{loc.direccion|location_to_valid_google}}&aq=t&sll={{loc.lat}},{{loc.long}}&sspn={{loc.lat}},{{loc.long}}&ie=UTF8&hq=&hnear=&t=m&z=14&ll={{loc.lat}},{{loc.long}}&output=embed"></iframe>
+                            </div>
                         </li>
                         {% endfor %}
                         {% endif %}
