@@ -82,7 +82,7 @@
         transform: scale(0.95);
     }
 
-    input[type=text], input[type=password] {
+    input[type=text], input[type=password], input[type=email] {
         background-color: #f6f6f6;
         border: none;
         color: #0d0d0d;
@@ -288,7 +288,7 @@
                 <form method="POST" action="{% url 'register' %}">
                     {% csrf_token %}
                     <input type="text" id="login" class="fadeIn second" name="user" placeholder="Usuario">
-                    <input type="text" id="login" class="fadeIn second" name="mail" placeholder="E-mail">
+                    <input type="email" id="login" class="fadeIn second" name="mail" placeholder="E-mail">
                     <input type="password" id="password" class="fadeIn third" name="pass" placeholder="Contraseña">
                     <input type="password" id="password" class="fadeIn third" name="repass" placeholder="Repite contraseña">
                     <input type="submit" class="fadeIn fourth" value="Registrar">

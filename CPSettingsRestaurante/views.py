@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from restaurantes.models import Restaurante, Direccion
-from restaurantes.forms import RestauranteCreateForm
+from restaurantes.forms import RestauranteCreateForm, RestauranteEditForm
 # Create your views here.
 
 @login_required(login_url='/account/login')
@@ -51,6 +51,9 @@ def rest_settings_update(request):
             messages.success(request, "¡Cambios guardados con éxito!")
 
     rest = Restaurante.objects.get(pk=request.user.profile.restaurante.id)
-    form = RestauranteCreateForm(instance=rest)
+    form = RestauranteEditForm(instance=rest)
     context = {'form':form}
     return render(request, 'CPSettingsRestaurante/update.html', context)
+
+def rest_settings_view(request):
+    return render(request, 'CPSettingsRestaurante/view.html')

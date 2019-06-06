@@ -17,4 +17,19 @@ class RestauranteCreateForm(forms.ModelForm):
 
     class Meta:
         model = Restaurante
-        fields = ('nombre', 'descr', 'logo', 'banner')
+        fields = ('nombre', 'descr', 'telefono', 'email', 'logo', 'banner')
+
+class RestauranteEditForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(RestauranteEditForm, self).__init__(*args, **kwargs)
+
+        # If you pass FormHelper constructor a form instance
+        # It builds a default layout with all its fields
+        self.helper = FormHelper(self)
+
+        # You can dynamically adjust your layout
+        self.helper.layout.append(Submit('save', 'Guardar'))
+
+    class Meta:
+        model = Restaurante
+        fields = ('nombre', 'descr', 'telefono', 'email', 'logo', 'banner')
