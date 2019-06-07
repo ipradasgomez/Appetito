@@ -21,5 +21,5 @@ urlpatterns = [
     path('account/', include('accounts.urls')),
     path('admin/', admin.site.urls, name='admin'),
     path('cpanel/', include('cpanel.urls')),
-    path('', include('pages.urls')),    
+    path('', include('pages.urls')),
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

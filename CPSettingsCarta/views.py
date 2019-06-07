@@ -74,4 +74,18 @@ def menu_food_remove(request):
 
 @login_required(login_url='/account/login')
 def menu_food_edit(request, foodId):
-    return redirect('settings_menu_view')
+    if Plato.objects.filter(pk=foodId).exists() and Plato.objects.get(pk=foodId).categoria.restaurante.id is request.user.profile.restaurante.id:
+        if request.POST:
+            form = PlatoCreateForm(request.POST or None, request.FILES or None, instance=Plato.objects.get(pk=foodId))
+            if form.is_valid():
+                form.save()
+                messages.success(request, "Plato editado con éxito")
+                return redirect('settings_menu_view')
+        context={
+            'foodId':foodId,
+            'editForm':PlatoCreateForm(instance=Plato.objects.get(pk=foodId))
+            }
+        return render(request, 'CPSettingsCarta/editfood.html', context)
+    else:
+        messages.error(request, "Error obteniendo el plato.")
+        return redirect('settings_menu_view')      

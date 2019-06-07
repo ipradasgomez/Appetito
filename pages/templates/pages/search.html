@@ -1,17 +1,22 @@
 {% extends "base.html" %}
 {% load static %}
 {% block title %}
- - Resultados
+- Resultados
 {% endblock title %}
 {% block page-info %}
 <section class="page-top-info set-bg" data-setbg="{% static 'img/page-top-bg/2.jpg' %}">
-	<div class="ptf-center">
-		<div class="container d-inline-flex">
-			<a href="{% url 'landing' %}"><h2></h2>
-		</div>
-	</div>
+    <div class="ptf-center">
+        <div class="container d-inline-flex">
+            <h2>Resultados de búsqueda</h2>
+        </div>
+    </div>
 </section>
 {% endblock page-info %}
 {% block content %}
-<h1>Search</h1>
+<div class="container">
+	<div class="row">
+		<div class="col-3"> Filter </div>
+		<div class="col-9"> Results </div>
+	</div>
+</div>
 {% endblock content %}
