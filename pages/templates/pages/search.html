@@ -3,20 +3,334 @@
 {% block title %}
 - Resultados
 {% endblock title %}
+{% block extra_css %}
+<style>
+	.event-list {
+		list-style: none;
+		font-family: 'Lato', sans-serif;
+		margin: 0px;
+		padding: 0px;
+	}
+
+	.event-list>li {
+		background-color: rgb(255, 255, 255);
+		box-shadow: 0px 0px 5px rgb(51, 51, 51);
+		box-shadow: 0px 0px 5px rgba(51, 51, 51, 0.7);
+		padding: 0px;
+		margin: 0px 0px 20px;
+	}
+
+	.event-list>li>time {
+		display: inline-block;
+		width: 100%;
+		color: rgb(255, 255, 255);
+		background-color: rgb(197, 44, 102);
+		padding: 5px;
+		text-align: center;
+		text-transform: uppercase;
+	}
+
+	.event-list>li:nth-child(even)>time {
+		background-color: rgb(165, 82, 167);
+	}
+
+	.event-list>li>time>span {
+		display: none;
+	}
+
+	.event-list>li>time>.day {
+		display: block;
+		font-size: 56pt;
+		font-weight: 100;
+		line-height: 1;
+	}
+
+	.event-list>li time>.month {
+		display: block;
+		font-size: 24pt;
+		font-weight: 900;
+		line-height: 1;
+	}
+
+	.event-list>li>img {
+		width: 100%;
+	}
+
+	.event-list>li>.info {
+		padding-top: 5px;
+		text-align: center;
+	}
+
+	.event-list>li>.info>.title {
+		font-size: 17pt;
+		font-weight: 700;
+		margin: 0px;
+	}
+
+	.event-list>li>.info>.desc {
+		font-size: 13pt;
+		font-weight: 300;
+		margin: 0px;
+	}
+
+	.event-list>li>.info>ul,
+	.event-list>li>.social>ul {
+		display: table;
+		list-style: none;
+		margin: 10px 0px 0px;
+		padding: 0px;
+		width: 100%;
+		text-align: center;
+	}
+
+	.event-list>li>.social>ul {
+		margin: 0px;
+	}
+
+	.event-list>li>.info>ul>li,
+	.event-list>li>.social>ul>li {
+		display: table-cell;
+		cursor: pointer;
+		color: rgb(30, 30, 30);
+		font-size: 11pt;
+		font-weight: 300;
+		padding: 3px 0px;
+	}
+
+	.event-list>li>.info>ul>li>a {
+		display: block;
+		width: 100%;
+		color: rgb(30, 30, 30);
+		text-decoration: none;
+	}
+
+	.event-list>li>.social>ul>li {
+		padding: 0px;
+	}
+
+	.event-list>li>.social>ul>li>a {
+		padding: 3px 0px;
+	}
+
+	.event-list>li>.info>ul>li:hover,
+	.event-list>li>.social>ul>li:hover {
+		color: rgb(30, 30, 30);
+		background-color: rgb(200, 200, 200);
+	}
+
+	.facebook a,
+	.twitter a,
+	.google-plus a {
+		display: block;
+		width: 100%;
+		color: rgb(75, 110, 168) !important;
+	}
+
+	.twitter a {
+		color: rgb(79, 213, 248) !important;
+	}
+
+	.google-plus a {
+		color: rgb(221, 75, 57) !important;
+	}
+
+	.facebook:hover a {
+		color: rgb(255, 255, 255) !important;
+		background-color: rgb(75, 110, 168) !important;
+	}
+
+	.twitter:hover a {
+		color: rgb(255, 255, 255) !important;
+		background-color: rgb(79, 213, 248) !important;
+	}
+
+	.google-plus:hover a {
+		color: rgb(255, 255, 255) !important;
+		background-color: rgb(221, 75, 57) !important;
+	}
+
+	@media (min-width: 768px) {
+		.event-list>li {
+			position: relative;
+			display: block;
+			width: 100%;
+			height: 120px;
+			padding: 0px;
+		}
+
+		.event-list>li>time,
+		.event-list>li>img {
+			display: inline-block;
+		}
+
+		.event-list>li>time,
+		.event-list>li>img {
+			width: 120px;
+			float: left;
+		}
+
+		.event-list>li>.info {
+			background-color: rgb(245, 245, 245);
+			overflow: hidden;
+		}
+
+		.event-list>li>time,
+		.event-list>li>img {
+			width: 120px;
+			height: 120px;
+			padding: 0px;
+			margin: 0px;
+		}
+
+		.event-list>li>.info {
+			position: relative;
+			height: 120px;
+			text-align: left;
+			padding-right: 40px;
+		}
+
+		.event-list>li>.info>.title,
+		.event-list>li>.info>.desc {
+			padding: 0px 10px;
+		}
+
+		.event-list>li>.info>ul {
+			position: absolute;
+			left: 0px;
+			bottom: 0px;
+		}
+
+		.event-list>li>.social {
+			position: absolute;
+			top: 0px;
+			right: 0px;
+			display: block;
+			width: 40px;
+		}
+
+		.event-list>li>.social>ul {
+			border-left: 1px solid rgb(230, 230, 230);
+		}
+
+		.event-list>li>.social>ul>li {
+			display: block;
+			padding: 0px;
+		}
+
+		.event-list>li>.social>ul>li>a {
+			display: block;
+			width: 40px;
+			padding: 10px 0px 9px;
+		}
+	}
+</style>
+{% endblock %}
 {% block page-info %}
 <section class="page-top-info set-bg" data-setbg="{% static 'img/page-top-bg/2.jpg' %}">
-    <div class="ptf-center">
-        <div class="container d-inline-flex">
-            <h2>Resultados de búsqueda</h2>
-        </div>
-    </div>
+	<div class="ptf-center">
+		<div class="container d-inline-flex">
+			<h2>Resultados de búsqueda</h2>
+		</div>
+	</div>
 </section>
 {% endblock page-info %}
 {% block content %}
 <div class="container">
 	<div class="row">
-		<div class="col-3"> Filter </div>
-		<div class="col-9"> Results </div>
+		<div class="col-3">
+			<div class="row align-items-center d-flex flex-column justify-content-center">
+				<form method="GET" class="col-12 row">
+					<div class="col-12 pt-3">
+						<h6>Filtrar búsqueda<h6>
+					</div>
+					<div class="col-12 pt-3">
+						<div class="form-group">
+							<input type="text" name="q" class="form-control" placeholder="Buscar..."
+								value="{% if request.GET.q %}{{request.GET.q}}{%endif%}">
+						</div>
+					</div>
+					<div class="col-12 pt-3">
+					<div class="form-group">
+					<input type="range" class="form-control" />
+					</div>
+					</div>
+					<div class="col-12 pt-3">
+						<div class="form-group">
+							<select id="inputState " class="form-control">
+								<option selected>Brand</option>
+								<option>BMW</option>
+								<option>Audi</option>
+								<option>Maruti</option>
+								<option>Tesla</option>
+							</select>
+						</div>
+					</div>
+					<div class="col-12 pt-3">
+						<div class="form-group">
+							<select id="inputState" class="form-control">
+								<option selected>Model</option>
+								<option>BMW</option>
+								<option>Audi</option>
+								<option>Maruti</option>
+								<option>Tesla</option>
+							</select>
+						</div>
+					</div>
+					<div class="col-12 pt-3">
+						<div class="form-group">
+							<select id="inputState" class="form-control">
+								<option selected>Budget</option>
+								<option>BMW</option>
+								<option>Audi</option>
+								<option>Maruti</option>
+								<option>Tesla</option>
+							</select>
+						</div>
+					</div>
+					<div class="col-12 pt-3">
+						<div class="form-group">
+							<select id="inputState" class="form-control">
+								<option selected>Type</option>
+								<option>BMW</option>
+								<option>Audi</option>
+								<option>Maruti</option>
+								<option>Tesla</option>
+							</select>
+						</div>
+					</div>
+					<div class="col-12 mb-3">
+						<button type="submit" class="btn btn-primary btn-block">Filtrar</button>
+					</div>
+				</form>
+			</div>
+		</div>
+		<div class="col-9 pt-3">
+			<div class="row">Map</div>
+			<div class="row">
+				<div class="col-12">
+					<ul class="event-list">
+					{% for plato in results %}
+						<li>
+							<img alt="{{plato.categoria.restaurante}}" title="{{plato.categoria.restaurante}}"
+								src="{{MEDIA_URL}}{{plato.categoria.restaurante.logo.url}}" />
+								<img alt="{{plato}}" title="{{plato}}"
+								src="{{MEDIA_URL}}{{plato.foto.url}}" />
+							<div class="info">
+								<h2 class="title">{{plato}}: {{plato.precio}} €</h2>
+								<p class="desc">{{plato.descripcion}}<em>{{plato.lista_ingredientes}}</em></p>
+								<p class="desc">{{plato.categoria.restaurante}}</p>
+								<ul>
+								<li style="width:50%;">{{plato.categoria.restaurante.telefono}}</li>
+									<li style="width:50%;"><a href="#website"><span class="fa fa-globe"></span>
+											Ver carta completa</a></li>									
+								</ul>
+							</div>
+						</li>
+					{% endfor %}
+					</ul>
+				</div>
+			</div>
+		</div>
 	</div>
 </div>
 {% endblock content %}

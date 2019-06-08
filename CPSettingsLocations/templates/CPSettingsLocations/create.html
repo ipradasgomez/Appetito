@@ -134,6 +134,12 @@ function initAutocomplete() {
           mapTypeId: 'roadmap'
         });
 
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(function (position) {
+                initialLocation = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+                map.setCenter(initialLocation);
+            });
+        }
         // Create the search box and link it to the UI element.
         var input = document.getElementById('pac-input');
         var searchBox = new google.maps.places.SearchBox(input);
@@ -160,7 +166,8 @@ function initAutocomplete() {
             autoCompletar(marker)
             // Center of map
             map.panTo(new google.maps.LatLng(latitude,longitude));
-            markers.forEach(function (m){m.setMap(null)});
+            markers.forEach(function (m){
+              m.setMap(null)});
             markers.push(marker);
             
 
@@ -169,9 +176,7 @@ function initAutocomplete() {
                   if(marcador)
                   {
                       var pos=marcador.getPosition()
-                      consultaGoogle(pos.lat()+','+pos.lng());                      
-                                   
-                      
+                      consultaGoogle(pos.lat()+','+pos.lng()); 
                   }
               }
 
@@ -180,7 +185,7 @@ function initAutocomplete() {
                   $.ajax({
                       type: "GET",
                       async:false,
-                      url: 'https://maps.google.com/maps/api/geocode/json?key=AIzaSyDc6HDmgojxSFFUkJ5fjY0km_F_iZBHvSU&address='+encodeURI(consulta)
+                      url: 'https://maps.google.com/maps/api/geocode/json?key=AIzaSyDbA0mJ4aoUWtt1svmeoPvVJ-bMFwQyK8k&address='+encodeURI(consulta)
                   }).done(function ( res ) {
                       if(res!='ERROR'){
                         $('input#dir').val(JSON.stringify(res.results[0].formatted_address).replace(/['"]+/g, ''));
@@ -246,6 +251,6 @@ function initAutocomplete() {
       }
 
     </script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDc6HDmgojxSFFUkJ5fjY0km_F_iZBHvSU&libraries=places&callback=initAutocomplete"
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDbA0mJ4aoUWtt1svmeoPvVJ-bMFwQyK8k&libraries=places&callback=initAutocomplete"
          async defer></script>
 {% endblock extra_js %}
