@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
-from cartas.models import Categoria, Plato
+from cartas.models import Categoria, Plato, Tag
 from django.contrib import messages
 from cartas.forms import PlatoCreateForm
 
@@ -89,3 +89,23 @@ def menu_food_edit(request, foodId):
     else:
         messages.error(request, "Error obteniendo el plato.")
         return redirect('settings_menu_view')      
+
+@login_required(login_url='/account/login')
+def food_tag_add(request):
+    if request.POST:
+        if Plato.objects.filter(pk=request.POST['foodId']).exists() and Plato.objects.get(pk=request.POST['foodId']).categoria.restaurante.id is request.user.profile.restaurante.id:
+            if Plato.objects.get(pk=request.POST['foodId']).tags.count() < request.user.profile.plan.max_tags_x_prod or request.user.profile.plan.max_tags_x_prod is 0:
+                if request.POST['tag'].strip() is not '':
+                    Tag.objects.get_or_create(tagtext=request.POST['tag'].strip())
+                    tag =Tag.objects.get(tagtext=request.POST['tag'].strip())
+                    plato = Plato.objects.get(pk=request.POST['foodId'])
+                    plato.tags.add(tag)
+                    plato.save()
+                else:
+                    messages.error(request, "El tag no puede estar vacio.")
+            else:
+                messages.error(request, "El no puedes añadir mas tags al plato. ¡Incrementa tu plan!")
+        else:
+            messages.error(request, "No se han encontrado el plato.")
+
+    return redirect('settings_menu_view')   
