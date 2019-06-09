@@ -49,7 +49,7 @@ def menu_food_create(request):
     if request.POST:
         if request.user.profile.restaurante.categorias.filter(pk=request.POST['categoria_id']).exists():
             categoria = request.user.profile.restaurante.categorias.get(pk=request.POST['categoria_id'])
-            if categoria.platos.count() < request.user.profile.plan.max_productos_x_cat:
+            if categoria.platos.count() < request.user.profile.plan.max_productos_x_cat or request.user.profile.plan.max_productos_x_cat is 0:
                 form = PlatoCreateForm(request.POST, request.FILES)
                 if form.is_valid():
                     plato = form.save(commit=False)
@@ -83,6 +83,7 @@ def menu_food_edit(request, foodId):
                 return redirect('settings_menu_view')
         context={
             'foodId':foodId,
+            'plato':Plato.objects.get(pk=foodId),
             'editForm':PlatoCreateForm(instance=Plato.objects.get(pk=foodId))
             }
         return render(request, 'CPSettingsCarta/editfood.html', context)
@@ -108,4 +109,4 @@ def food_tag_add(request):
         else:
             messages.error(request, "No se han encontrado el plato.")
 
-    return redirect('settings_menu_view')   
+    return redirect('settings_menu_editfood', request.POST['foodId'])

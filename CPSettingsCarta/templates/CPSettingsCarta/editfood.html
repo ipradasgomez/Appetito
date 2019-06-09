@@ -32,22 +32,30 @@
                         </form>
                     </div>
                     <div class="col-4 mt-3">
-                        <h5>Gestión de tags</h5>
-                        {% if plato.tags.all.count < user.profile.plan.max_tags_x_prod or user.profile.plan.max_tags_x_prod is 0 %}
-                        <form action="{% url 'settings_tag_add' %}" method="POST" class="pt-2">
-                            {% csrf_token %}
-                            <div class="form-group">
-                                <input type="text" name="tag" class="form-control" id="tag" placeholder="Tag">
-                                <input type="hidden" name="foodId" value="{{foodId}}">
-                                <button type="submit" class="float-right btn btn-success">Añadir tag</button>
+                        <div class="row">
+                            <div class="col-12">
+                                <h5>Gestión de tags</h5>
+                                {% if plato.tags.all.count < user.profile.plan.max_tags_x_prod or user.profile.plan.max_tags_x_prod is 0 %}
+                                <form action="{% url 'settings_tag_add' %}" method="POST" class="pt-2">
+                                    {% csrf_token %}
+                                    <div class="form-group">
+                                        <input type="text" name="tag" class="form-control" id="tag" placeholder="Tag">
+                                        <input type="hidden" name="foodId" value="{{foodId}}">
+                                        <button type="submit" class="float-right btn btn-success">Añadir tag</button>
+                                    </div>
+                                </form>
+                                {% endif %}
                             </div>
-                        </form>
-                        {% endif %}
-                        <ul>
-                            {% for tag in plato.tags %}
-                            <li>aa</li>
-                            {% endfor %}
-                        </ul>
+                            <div class="col-12">
+                                <ul>
+                                    {% for tag in plato.tags.all %}
+                                    <li>{{tag}}aa</li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </div>
+
+
                     </div>
                 </div>
             </div>
