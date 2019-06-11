@@ -30,6 +30,7 @@
                         <form action="{% url 'settings_menu_editfood' foodId %}" method="POST">
                             {% crispy editForm %}
                         </form>
+                        <a href="{% url 'settings_menu_view' %}" class="btn btn-info">Volver</a>
                     </div>
                     <div class="col-4 mt-3">
                         <div class="row">
@@ -48,9 +49,11 @@
                             </div>
                             <div class="col-12">
                                 <ul>
+                                <li>
                                     {% for tag in plato.tags.all %}
-                                    <li>{{tag}}aa</li>
+                                    <a href="{% url 'settings_tag_remove' foodId tag.id%}" class="badge badge-danger badge-pill">{{tag}} <i class="fa fa-trash"></i></a>
                                     {% endfor %}
+                                    </li>
                                 </ul>
                             </div>
                         </div>

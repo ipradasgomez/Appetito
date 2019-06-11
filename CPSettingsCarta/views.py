@@ -110,3 +110,11 @@ def food_tag_add(request):
             messages.error(request, "No se han encontrado el plato.")
 
     return redirect('settings_menu_editfood', request.POST['foodId'])
+
+@login_required(login_url='/account/login')
+def food_tag_remove(request, food, tag):
+    plato = Plato.objects.get(pk=food)
+    tag = Tag.objects.get(pk=tag)
+    plato.tags.remove(tag)
+    plato.save()
+    return redirect('settings_menu_editfood', food)
