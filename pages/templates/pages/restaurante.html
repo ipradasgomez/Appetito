@@ -306,76 +306,91 @@
 </style>
 {% endblock extra_css %}
 {% block title %}
-- {{restaurante.nombre}}
+{% if exist %}- {{restaurante.nombre}}{%endif%}
 {% endblock title %}
 {% block page-info %}
 <section class="page-top-info set-bg" data-setbg="{% static 'img/page-top-bg/1.jpg' %}">
     <div class="ptf-center">
         <div class="container d-inline-flex">
-           <h2>{{restaurante.nombre}}</h2>
+            {% if exist %}<h2>{{restaurante.nombre}}</h2>{%else%} <h2>No encontrado</h2> {%endif%}
         </div>
     </div>
 </section>
 {% endblock page-info %}
 {% block content %}
-    <div class="container">
-        <div class="row">
-            <div class="card hovercard col-12">
-                <div class="cardheader">
+<div class="container">
+    <div class="row">
+        {% if exist %}
+        <div class="card hovercard col-12">
+            <div class="cardheader">
+            </div>
+            <div class="avatar">
+                <img src="{{MEDIA_URL}}{{restaurante.logo.url}}">
+            </div>
+            <div class="info">
+                <div class="title">
+                    {{restaurante}}
                 </div>
-                <div class="avatar">
-                    <img src="{{MEDIA_URL}}{{restaurante.logo.url}}">
+                <div class="desc">{{restaurante.telefono}}</div>
+                <div class="desc">{{restaurante.email}}</div>
+                {% if user.profile.restaurante.direcciones.count > 0 %}
+                <div class="desc">Nos encontrarás en...
+                    <ul>
+                        {% for loc in restaurante.direcciones.all %}
+                        <li>{{loc}}</li>
+                        {% endfor %}
+                    </ul>
                 </div>
-                <div class="info">
-                    <div class="title">
-                        {{restaurante}}
-                    </div>
-                    <div class="desc">{{restaurante.telefono}}</div>
-                    <div class="desc">{{restaurante.email}}</div>
-                    <div class="desc">Tech geek</div>
-                </div>
-                <div class="bottom">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center">
-                                <div class="page-section">
-                                    <h1 class="page-title">Nuestra carta</h1>
-                                </div>
+                {% endif %}
+            </div>
+            <div class="bottom">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center">
+                            <div class="page-section">
+                                <h1 class="page-title">Nuestra carta</h1>
                             </div>
                         </div>
-                        <div class="row">
-                            <!-- starter -->
-                            {% for categoria in restaurante.categorias.all %}
-                            <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 mb40">
-                                <div class="menu-block">
-                                    <h3 class="menu-title">{{categoria}}</h3>
-                                    <div class="menu-content">
+                    </div>
+                    <div class="row">
+                        <!-- starter -->
+                        {% for categoria in restaurante.categorias.all %}
+                        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 mb40">
+                            <div class="menu-block">
+                                <h3 class="menu-title">{{categoria}}</h3>
+                                <div class="menu-content">
                                     {% for plato in categoria.platos.all %}
-                                        <div class="row">
-                                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
-                                                <div class="dish-img"><a href="#"><img
-                                                            src="{{MEDIA_URL}}{{plato.foto.url}}" alt=""
-                                                            class="img-circle"></a></div>
-                                            </div>
-                                            <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
-                                                <div class="dish-content">
-                                                    <h5 class="dish-title">{{plato}}</h5>
-                                                    <span class="dish-meta">{{plato.descr}}</span>
-                                                    <span class="dish-meta">{{plato.lista_ingredientes}}</span>
-                                                    <span class="dish-meta">{{plato.precio}} €</span>
-                                                </div>
+                                    <div class="row">
+                                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                                            <div class="dish-img"><a href="#"><img src="{{MEDIA_URL}}{{plato.foto.url}}"
+                                                        alt="" class="img-circle"></a></div>
+                                        </div>
+                                        <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
+                                            <div class="dish-content">
+                                                <h5 class="dish-title">{{plato}}</h5>
+                                                <span class="dish-meta">{{plato.descr}}</span>
+                                                <span class="dish-meta">{{plato.lista_ingredientes}}</span>
+                                                <span class="dish-meta">{{plato.precio}} €</span>
                                             </div>
                                         </div>
-                                    {% endfor %}
                                     </div>
+                                    {% endfor %}
                                 </div>
                             </div>
-                            {% endfor %}
-                            <!-- /.starter -->
                         </div>
+                        {% endfor %}
+                        <!-- /.starter -->
                     </div>
                 </div>
             </div>
         </div>
+        {%else%}
+        <div class="col-12 pt-4">
+            <div class="alert alert-danger" role="alert">
+                El restaurante buscado no existe o no ha podido ser cargado.
+            </div>
+        </div>
+        {%endif%}
     </div>
+</div>
 {% endblock content %}

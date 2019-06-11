@@ -13,7 +13,7 @@ def location_settings_view(request):
 @login_required(login_url='/account/login')
 def location_settings_create(request):
     if(request.POST):
-        if(request.user.profile.restaurante.direcciones.all().count() < request.user.profile.plan.max_empresas):
+        if(request.user.profile.restaurante.direcciones.all().count() < request.user.profile.plan.max_empresas or request.user.profile.plan.max_empresas is 0):
             dir = Direccion.objects.create(direccion=request.POST['dir'], lat=request.POST['lat'], long=request.POST['long'], restaurante_id=request.user.profile.restaurante.id)
             dir.save()
             messages.success(request, "Dirección creada con éxito.")

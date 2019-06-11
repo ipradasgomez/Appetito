@@ -137,27 +137,7 @@
                     {% endif %}
                     {% endfor %}
                 </tr>
-                <tr>
-                    <td>¿Permite anunciar tus productos?:</td>
-                    {% for plan in plans %}
-                    {% if plan.permite_anuncios %}
-                    <td><i class="fa fa-check"></i></td>
-                    {% else %}
-                    <td><i class="fa fa-ban"></i></td>
-                    {% endif %}
-                    {% endfor %}
-                </tr>
-                <!--
-                {% if not user.is_authenticated %}
                 
-                <tr>
-                    <td></td>
-                    {% for plan in plans %}
-                    <td><a href="#{{plan.id}}">Registrar</a></td>
-                    {% endfor %}
-                </tr>
-                {% endif %}
-                -->
             </tbody>
         </table>
     </div>

@@ -339,7 +339,15 @@
                     </div>
                     <div class="desc">{{user.profile.restaurante.telefono}}</div>
                     <div class="desc">{{user.profile.restaurante.email}}</div>
-                    <div class="desc">Tech geek</div>
+                    {% if user.profile.restaurante.direcciones.count > 0 %}
+                    <div class="desc">Nos encontrarás en...
+                        <ul>
+                            {% for loc in user.profile.restaurante.direcciones.all %}
+                            <li>{{loc}}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    {% endif %}
                 </div>
                 <div class="bottom">
                     <div class="container">
@@ -352,12 +360,14 @@
                         </div>
                         <div class="row">
                             <!-- starter -->
+                            {% if user.profile.restaurante.categorias.count < 0 %}
                             {% for categoria in user.profile.restaurante.categorias.all %}
-                            <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 mb40">
+                            <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 mb-4">
                                 <div class="menu-block">
                                     <h3 class="menu-title">{{categoria}}</h3>
                                     <div class="menu-content">
-                                    {% for plato in categoria.platos.all %}
+                                        {% if categoria.platos.count > 0%}
+                                        {% for plato in categoria.platos.all %}
                                         <div class="row">
                                             <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
                                                 <div class="dish-img"><a href="#"><img
@@ -373,11 +383,24 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    {% endfor %}
+                                        {% endfor %}
+                                        {%else%}
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <p>Esta categoría está vacía</p>
+                                            </div>
+                                        </div>
+                                        {%endif%}
                                     </div>
                                 </div>
                             </div>
                             {% endfor %}
+                            {%else%}
+                            <div class="col-12 mb-4 d-flex justify-content-center">
+                            <h3>Parece que tu carta está vacía...</h3>
+                                <a type="button" href="{% url 'settings_menu_view' %}" class="btn btn-success">¡Vamos a crearla!</a>
+                            </div>
+                            {%endif%}
                             <!-- /.starter -->
                         </div>
                     </div>

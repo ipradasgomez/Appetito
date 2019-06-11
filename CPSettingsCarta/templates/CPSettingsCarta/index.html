@@ -36,15 +36,24 @@
                     {% for categoria in user.profile.restaurante.categorias.all %}
                     <div class="col-12 col-md-6 pt-2">
                         <ul class="list-group card">
-                            <li class="list-group-item">
-                                <h4 class="list-group-item-text">{{categoria}}<form method="POST"
-                                        action="{% url 'settings_menu_removecat' %}" class="float-right">
-                                        {% csrf_token %}<input type="hidden" name="deletecatid"
-                                            value="{{categoria.id}}"><button type="submit"
-                                            class="btn badge badge-danger">Borrar</button></form><button
-                                        data-selector="editcat" data-catname="{{categoria}}" data-cat="{{categoria.id}}"
-                                        data-toggle="modal" data-target="#editCat"
-                                        class=" btn badge badge-info float-right">Editar</button></h4>
+                            <li class="list-group-item d-flex">
+                                <h4 class="list-group-item-text mr-auto">{{categoria}}</h4>
+                                <form method="POST" action="{% url 'settings_menu_removecat' %}">
+                                    {% csrf_token %}
+
+                                    <input type="hidden" name="deletecatid" value="{{categoria.id}}">
+                                    <button type="submit" class="btn badge badge-danger">
+                                        <i class="fa fa-trash" data-toggle="tooltip" data-placement="top"
+                                            title="Eliminar categoría"></i>
+                                    </button>
+
+                                    <button data-selector="editcat" data-catname="{{categoria}}"
+                                        data-cat="{{categoria.id}}" data-toggle="modal" data-target="#editCat"
+                                        class=" btn badge badge-info">
+                                        <i data-toggle="tooltip" data-placement="top" title="Editar categoría"
+                                            class="fa fa-edit"></i>
+                                    </button>
+                                </form>
                             </li>
                             {% if categoria.platos.count == 0 %}
                             <li class="list-group-item">
@@ -55,8 +64,7 @@
                             <li class="list-group-item container">
                                 <div class="row">
                                     <div class="col-3">
-                                        <img src="{{MEDIA_URL}}{{plato.foto.url}}"
-                                            class="img-circle">
+                                        <img src="{{MEDIA_URL}}{{plato.foto.url}}" class="img-circle">
                                     </div>
 
                                     <div class="col-6">
@@ -68,15 +76,16 @@
 
                                     <div class="col-3">
                                         <div class="btn-group">
-                                        <a href="{% url 'settings_menu_editfood' plato.id%}"
-                                                class="btn badge badge-info float-right">Editar</a>
-                                                <form method="POST"
-                                        action="{% url 'settings_menu_removefood' %}">
-                                        {% csrf_token %}
-                                        <input type="hidden" name="foodid" value="{{plato.id}}">
-                                            <button type="submit"
-                                                class="btn badge badge-danger float-right">Eliminar</button>
-                                        </form>
+                                            <a href="{% url 'settings_menu_editfood' plato.id%}"
+                                                class="btn badge badge-info float-right" data-toggle="tooltip"
+                                                data-placement="top" title="Editar plato"><i class="fa fa-edit"></i></a>
+                                            <form method="POST" action="{% url 'settings_menu_removefood' %}">
+                                                {% csrf_token %}
+                                                <input type="hidden" name="foodid" value="{{plato.id}}">
+                                                <button type="submit" class="btn badge badge-danger float-right"
+                                                    data-toggle="tooltip" data-placement="top" title="Eliminar plato"><i
+                                                        class="fa fa-trash"></i></button>
+                                            </form>
                                         </div>
                                     </div>
                                 </div>
@@ -210,6 +219,11 @@
         $('#categoria_id').val(e.target.dataset.cat);
         $('.catToAdd')[0].innerHTML = e.target.dataset.catname;
         $('#addFoodForm').trigger("reset");
+    })
+</script>
+<script>
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip()
     })
 </script>
 {% endblock extra_js %}

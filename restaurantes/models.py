@@ -20,5 +20,5 @@ class Direccion(models.Model):
     long = models.DecimalField(max_digits=11, decimal_places=7, default=0, verbose_name="Longitud", blank=False, null=False, validators=[MinValueValidator(-180), MaxValueValidator(180)])
     restaurante = models.ForeignKey(Restaurante, on_delete=models.CASCADE, related_name="direcciones")
 
-    def __str(self):
+    def __str__(self):
         return self.direccion

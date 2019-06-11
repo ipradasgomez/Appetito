@@ -227,6 +227,141 @@
 			padding: 10px 0px 9px;
 		}
 	}
+
+	/**SLider**/
+
+	.price-box {
+		margin: 0 auto;
+		background: #E9E9E9;
+		border-radius: 10px;
+		padding: 40px 15px;
+		width: 500px;
+	}
+
+	.ui-widget-content {
+		border: 1px solid #bdc3c7;
+		background: #e1e1e1;
+		color: #222222;
+		margin-top: 4px;
+	}
+
+	.ui-slider .ui-slider-handle {
+		position: absolute;
+		z-index: 2;
+		width: 5.2em;
+		height: 2.2em;
+		cursor: default;
+		margin: 0 -40px auto !important;
+		text-align: center;
+		line-height: 30px;
+		color: #FFFFFF;
+		font-size: 15px;
+	}
+
+	.ui-slider .ui-slider-handle .glyphicon {
+		color: #FFFFFF;
+		margin: 0 3px;
+		font-size: 11px;
+		opacity: 0.5;
+	}
+
+	.ui-corner-all {
+		border-radius: 20px;
+	}
+
+	.ui-slider-horizontal .ui-slider-handle {
+		top: -.9em;
+	}
+
+	.ui-state-default,
+	.ui-widget-content .ui-state-default {
+		border: 1px solid #f9f9f9;
+		background: #3498db;
+	}
+
+	.ui-slider-horizontal .ui-slider-handle {
+		margin-left: -0.5em;
+	}
+
+	.ui-slider .ui-slider-handle {
+		cursor: pointer;
+	}
+
+	.ui-slider a,
+	.ui-slider a:focus {
+		cursor: pointer;
+		outline: none;
+	}
+
+	.price,
+	.lead p {
+		font-weight: 600;
+		font-size: 32px;
+		display: inline-block;
+		line-height: 60px;
+	}
+
+	h4.great {
+		background: #00ac98;
+		margin: 0 0 25px -60px;
+		padding: 7px 15px;
+		color: #ffffff;
+		font-size: 18px;
+		font-weight: 600;
+		border-radius: 5px;
+		display: inline-block;
+		-moz-box-shadow: 2px 4px 5px 0 #ccc;
+		-webkit-box-shadow: 2px 4px 5px 0 #ccc;
+		box-shadow: 2px 4px 5px 0 #ccc;
+	}
+
+	.total {
+		border-bottom: 1px solid #7f8c8d;
+		/*display: inline;
+	padding: 10px 5px;*/
+		position: relative;
+		padding-bottom: 20px;
+	}
+
+	.total:before {
+		content: "";
+		display: inline;
+		position: absolute;
+		left: 0;
+		bottom: 5px;
+		width: 100%;
+		height: 3px;
+		background: #7f8c8d;
+		opacity: 0.5;
+	}
+
+	.price-slider {
+		margin-bottom: 70px;
+	}
+
+	.price-slider span {
+		font-weight: 200;
+		display: inline-block;
+		color: #7f8c8d;
+		font-size: 13px;
+	}
+
+	.form-pricing {
+		background: #ffffff;
+		padding: 20px;
+		border-radius: 4px;
+	}
+
+	.price-form {
+		background: #ffffff;
+		margin-bottom: 10px;
+		padding: 20px;
+		border: 1px solid #eeeeee;
+		border-radius: 4px;
+		/*-moz-box-shadow:    0 5px 5px 0 #ccc;
+  	-webkit-box-shadow: 0 5px 5px 0 #ccc;
+  	box-shadow:         0 5px 5px 0 #ccc;*/
+	}
 </style>
 {% endblock %}
 {% block page-info %}
@@ -248,47 +383,24 @@
 						<h6>Filtrar búsqueda<h6>
 					</div>
 					<div class="col-12 pt-3">
+						<h4 class="great">Nombre o tag</h4>
 						<div class="form-group">
 							<input type="text" name="q" class="form-control" placeholder="Buscar..."
 								value="{% if request.GET.q %}{{request.GET.q}}{%endif%}">
 						</div>
 					</div>
-					<div class="col-12 pt-3">
-						<div class="form-group">
-							<input type="range" class="form-control" />
+					<div class="price-slider col-12 pt-3">
+						<h4 class="great">Precio máximo</h4>
+						<div class="col-sm-12">
+							<div id="slider"></div>
+							<input type="hidden" id="pm" name="pm" value="{% if request.GET.pm %}{{request.GET.pm}}{%endif%}">
 						</div>
 					</div>
-					<div class="col-12 pt-3">
-						<div class="form-group">
-							<select id="inputState " class="form-control">
-								<option selected>Brand</option>
-								<option>BMW</option>
-								<option>Audi</option>
-								<option>Maruti</option>
-								<option>Tesla</option>
-							</select>
-						</div>
-					</div>
-					<div class="col-12 pt-3">
-						<div class="form-group">
-							<select id="inputState" class="form-control">
-								<option selected>Model</option>
-								<option>BMW</option>
-								<option>Audi</option>
-								<option>Maruti</option>
-								<option>Tesla</option>
-							</select>
-						</div>
-					</div>
-					<div class="col-12 pt-3">
-						<div class="form-group">
-							<select id="inputState" class="form-control">
-								<option selected>Budget</option>
-								<option>BMW</option>
-								<option>Audi</option>
-								<option>Maruti</option>
-								<option>Tesla</option>
-							</select>
+					<div class="price-slider col-12 pt-3">
+						<h4 class="great">Distancia en km</h4>
+						<div class="col-sm-12">
+							<div id="slider2"></div>
+							<input type="hidden" id="r" name="r" value="{% if request.GET.r %}{{request.GET.r}}{%endif%}">
 						</div>
 					</div>
 					<div class="col-12 pt-3">
@@ -352,6 +464,7 @@
 </div>
 {% endblock content %}
 {% block extra_js %}
+<script src="https://code.jquery.com/ui/1.10.4/jquery-ui.min.js"></script>
 <script>
 	var map;
 
@@ -378,4 +491,56 @@
 </script>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDbA0mJ4aoUWtt1svmeoPvVJ-bMFwQyK8k&callback=initMap" async
 	defer></script>
+
+<script>
+	$(document).ready(function () {
+		$("#slider").slider({
+			animate: true,
+			value: {% if request.GET.pm %}{{request.GET.pm}}{%else%}0{%endif%},
+			min: 0,
+			max: 300,
+			step: 1,
+			slide: function (event, ui) {
+				update(1, ui.value); //changed
+			}
+		});
+
+		$("#slider2").slider({
+			animate: true,
+			value: {% if request.GET.r %}{{request.GET.r}}{%else%}0{%endif%},
+			min: 0,
+			max: 50,
+			step: 2,
+			slide: function (event, ui) {
+				update(2, ui.value); //changed
+			}
+		});
+
+		//Added, set initial value.
+		$("#slider").val({% if request.GET.pm %}{{request.GET.pm}}{%else%}0{%endif%});
+		$("#slider2").val({% if request.GET.r %}{{request.GET.r}}{%else%}0{%endif%});
+
+		update();
+	});
+
+	//changed. now with parameter
+	function update(slider, val) {
+		//changed. Now, directly take value from ui.value. if not set (initial, will use current value.)
+		if( slider == 1){
+			$('#slider a').html('<label><span class="fa fa-chevron-left"></span> ' + val +
+			' <span class="fa fa-chevron-right"></span></label>');
+			$('#pm').val(val)
+		}else if( slider == 2){
+			$('#slider2 a').html('<label><span class="fa fa-chevron-left"></span> ' + val +
+			' <span class="fa fa-chevron-right"></span></label>');
+			$('#r').val(val)
+		}else{
+			$('#slider a').html('<label><span class="fa fa-chevron-left"></span> ' + "{% if request.GET.pm %}{{request.GET.pm}}{%else%}0{%endif%}" +
+			' <span class="fa fa-chevron-right"></span></label>');
+			$('#slider2 a').html('<label><span class="fa fa-chevron-left"></span> ' + "{% if request.GET.r %}{{request.GET.r}}{%else%}0{%endif%}" +
+			' <span class="fa fa-chevron-right"></span></label>');
+		}
+		
+	}
+</script>
 {% endblock %}
