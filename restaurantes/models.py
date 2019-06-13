@@ -1,5 +1,7 @@
 from django.db import models
 from django.core.validators import MaxValueValidator, MinValueValidator
+from math import *
+import decimal
 
 # Create your models here.
 class Restaurante(models.Model):
@@ -22,3 +24,23 @@ class Direccion(models.Model):
 
     def __str__(self):
         return self.direccion
+    
+    def en_radio(self, distance, center_lat, center_long):
+        earth_r = decimal.Decimal(6371e3)
+        pi=(22/7)
+        pi=decimal.Decimal(pi)
+        distance = decimal.Decimal(distance)
+        center_lat= decimal.Decimal(center_lat)
+        center_long= decimal.Decimal(center_long)
+        
+        center_lat_radian = center_lat*(pi/180)
+        direc_lat_radian = self.lat*(pi/180)
+        dif_lats = (self.lat-center_lat)*(pi/180)
+        dif_longs = (self.long-center_long)*(pi/180)
+
+        a = sin(dif_lats/2) *  sin(dif_lats/2) + cos(center_lat_radian) * cos(direc_lat_radian) * sin(dif_longs/2) * sin(dif_longs/2)
+        c = 2 * atan2(sqrt(a), sqrt(1-a))
+        c=decimal.Decimal(c)
+        km = earth_r*c             
+             
+        return km < distance*1000

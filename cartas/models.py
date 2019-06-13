@@ -1,5 +1,5 @@
 from django.db import models
-from restaurantes.models import Restaurante
+from restaurantes.models import Restaurante, Direccion
 from django.core.validators import MaxValueValidator, MinValueValidator
 # Create your models here.
 
@@ -20,6 +20,8 @@ class Plato(models.Model):
 
     def __str__(self):
         return self.nombre
+
+
 
 class Tag(models.Model):
     tagtext = models.CharField(max_length=30, verbose_name='Tag', blank=False, null=False, default='')

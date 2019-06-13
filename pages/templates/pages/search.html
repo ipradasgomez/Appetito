@@ -400,18 +400,9 @@
 						<h4 class="great">Distancia en km</h4>
 						<div class="col-sm-12">
 							<div id="slider2"></div>
+							<input type="hidden" name="current_lat" id="current_lat">
+							<input type="hidden" name="current_lon" id="current_lon">
 							<input type="hidden" id="r" name="r" value="{% if request.GET.r %}{{request.GET.r}}{%endif%}">
-						</div>
-					</div>
-					<div class="col-12 pt-3">
-						<div class="form-group">
-							<select id="inputState" class="form-control">
-								<option selected>Type</option>
-								<option>BMW</option>
-								<option>Audi</option>
-								<option>Maruti</option>
-								<option>Tesla</option>
-							</select>
 						</div>
 					</div>
 					<div class="col-12 mb-3">
@@ -466,6 +457,15 @@
 {% block extra_js %}
 <script src="https://code.jquery.com/ui/1.10.4/jquery-ui.min.js"></script>
 <script>
+//LatLong to imputs
+	if (navigator.geolocation) {
+			navigator.geolocation.getCurrentPosition(function (position) {
+				$('#current_lat').val(position.coords.latitude);
+				$('#current_lon').val(position.coords.longitude);
+			});
+		}
+	</script>
+<script>
 	var map;
 
 	//Initialize
@@ -480,6 +480,8 @@
 	function autoCenter() {
 		if (navigator.geolocation) {
 			navigator.geolocation.getCurrentPosition(function (position) {
+				$('#current_lat').val(position.coords.latitude);
+				$('#current_lon').val(position.coords.longitude);
 				initialLocation = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
 				map.setCenter(initialLocation);
 			});
@@ -507,10 +509,10 @@
 
 		$("#slider2").slider({
 			animate: true,
-			value: {% if request.GET.r %}{{request.GET.r}}{%else%}0{%endif%},
+			value: {% if request.GET.r %}{{request.GET.r}}{%else%}5{%endif%},
 			min: 0,
-			max: 50,
-			step: 2,
+			max: 100,
+			step: 1,
 			slide: function (event, ui) {
 				update(2, ui.value); //changed
 			}
@@ -518,7 +520,7 @@
 
 		//Added, set initial value.
 		$("#slider").val({% if request.GET.pm %}{{request.GET.pm}}{%else%}0{%endif%});
-		$("#slider2").val({% if request.GET.r %}{{request.GET.r}}{%else%}0{%endif%});
+		$("#slider2").val({% if request.GET.r %}{{request.GET.r}}{%else%}5{%endif%});
 
 		update();
 	});
@@ -537,7 +539,7 @@
 		}else{
 			$('#slider a').html('<label><span class="fa fa-chevron-left"></span> ' + "{% if request.GET.pm %}{{request.GET.pm}}{%else%}0{%endif%}" +
 			' <span class="fa fa-chevron-right"></span></label>');
-			$('#slider2 a').html('<label><span class="fa fa-chevron-left"></span> ' + "{% if request.GET.r %}{{request.GET.r}}{%else%}0{%endif%}" +
+			$('#slider2 a').html('<label><span class="fa fa-chevron-left"></span> ' + "{% if request.GET.r %}{{request.GET.r}}{%else%}10{%endif%}" +
 			' <span class="fa fa-chevron-right"></span></label>');
 		}
 		
