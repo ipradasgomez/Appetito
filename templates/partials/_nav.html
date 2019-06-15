@@ -29,7 +29,7 @@
 				<li><span style="color:white"><em>Hola, {{ user.username }}</em></span></li>	
 			{% endif %}		
 			{% if user.is_authenticated %}
-			<li><a href="{% url 'cpanel_board' %}" class="{{ nav_board }}">Panel de Control</a></li>
+			<li><a href="{% url 'settings_rest_view' %}" class="{{ nav_board }}">Panel de Control</a></li>
 			{% if user.is_staff %}
 			<li><a href="/admin">Administración</a></li>
 			{% endif %}

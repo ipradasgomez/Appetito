@@ -6,6 +6,9 @@ from cartas.forms import PlatoCreateForm
 
 @login_required(login_url='/account/login')
 def menu_cat_view(request):
+    if request.user.profile.restaurante is None:
+        messages.success(request, "Antes de editar tus parámetros debes crear tu empresa.")
+        return redirect('settings_rest_create')
     context = {
         'foodForm' : PlatoCreateForm()
     }
@@ -13,6 +16,9 @@ def menu_cat_view(request):
 
 @login_required(login_url='/account/login')
 def menu_cat_create(request):
+    if request.user.profile.restaurante is None:
+        messages.success(request, "Antes de editar tus parámetros debes crear tu empresa.")
+        return redirect('settings_rest_create')
     if request.POST['catname'] and request.POST['catname'].strip() != '':
         cat = request.user.profile.restaurante.categorias.create(nombre=request.POST['catname'])
         cat.save()
@@ -23,6 +29,9 @@ def menu_cat_create(request):
 
 @login_required(login_url='/account/login')
 def menu_cat_remove(request):
+    if request.user.profile.restaurante is None:
+        messages.success(request, "Antes de editar tus parámetros debes crear tu empresa.")
+        return redirect('settings_rest_create')
     if request.POST['deletecatid'] and request.POST['deletecatid'].strip() != '' and request.user.profile.restaurante.categorias.filter(pk=request.POST['deletecatid']).exists():
         Categoria.objects.filter(pk=request.POST['deletecatid']).delete()
         messages.success(request, 'Categoría eliminada.')
@@ -32,6 +41,9 @@ def menu_cat_remove(request):
 
 @login_required(login_url='/account/login')
 def menu_cat_edit(request):
+    if request.user.profile.restaurante is None:
+        messages.success(request, "Antes de editar tus parámetros debes crear tu empresa.")
+        return redirect('settings_rest_create')
     if request.POST['catidedit'] and request.user.profile.restaurante.categorias.filter(pk=request.POST['catidedit']).exists():
         if request.POST['newcatname'] and request.POST['newcatname'].strip() != '':
             cat = Categoria.objects.filter(pk=request.POST['catidedit'])[:1].get()
@@ -46,6 +58,9 @@ def menu_cat_edit(request):
 
 @login_required(login_url='/account/login')
 def menu_food_create(request):
+    if request.user.profile.restaurante is None:
+        messages.success(request, "Antes de editar tus parámetros debes crear tu empresa.")
+        return redirect('settings_rest_create')
     if request.POST:
         if request.user.profile.restaurante.categorias.filter(pk=request.POST['categoria_id']).exists():
             categoria = request.user.profile.restaurante.categorias.get(pk=request.POST['categoria_id'])
@@ -65,6 +80,9 @@ def menu_food_create(request):
 
 @login_required(login_url='/account/login')
 def menu_food_remove(request):
+    if request.user.profile.restaurante is None:
+        messages.success(request, "Antes de editar tus parámetros debes crear tu empresa.")
+        return redirect('settings_rest_create')
     if request.POST['foodid'] and request.POST['foodid'].strip() != '' and Plato.objects.filter(pk=request.POST['foodid']).exists():
         Plato.objects.filter(pk=request.POST['foodid']).delete()
         messages.success(request, 'Plato eliminado.')
@@ -74,6 +92,9 @@ def menu_food_remove(request):
 
 @login_required(login_url='/account/login')
 def menu_food_edit(request, foodId):
+    if request.user.profile.restaurante is None:
+        messages.success(request, "Antes de editar tus parámetros debes crear tu empresa.")
+        return redirect('settings_rest_create')
     if Plato.objects.filter(pk=foodId).exists() and Plato.objects.get(pk=foodId).categoria.restaurante.id is request.user.profile.restaurante.id:
         if request.POST:
             form = PlatoCreateForm(request.POST or None, request.FILES or None, instance=Plato.objects.get(pk=foodId))
@@ -93,6 +114,9 @@ def menu_food_edit(request, foodId):
 
 @login_required(login_url='/account/login')
 def food_tag_add(request):
+    if request.user.profile.restaurante is None:
+        messages.success(request, "Antes de editar tus parámetros debes crear tu empresa.")
+        return redirect('settings_rest_create')
     if request.POST:
         if Plato.objects.filter(pk=request.POST['foodId']).exists() and Plato.objects.get(pk=request.POST['foodId']).categoria.restaurante.id is request.user.profile.restaurante.id:
             if Plato.objects.get(pk=request.POST['foodId']).tags.count() < request.user.profile.plan.max_tags_x_prod or request.user.profile.plan.max_tags_x_prod is 0:
@@ -113,6 +137,9 @@ def food_tag_add(request):
 
 @login_required(login_url='/account/login')
 def food_tag_remove(request, food, tag):
+    if request.user.profile.restaurante is None:
+        messages.success(request, "Antes de editar tus parámetros debes crear tu empresa.")
+        return redirect('settings_rest_create')
     plato = Plato.objects.get(pk=food)
     tag = Tag.objects.get(pk=tag)
     plato.tags.remove(tag)

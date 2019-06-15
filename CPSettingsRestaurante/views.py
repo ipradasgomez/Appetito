@@ -9,7 +9,7 @@ from restaurantes.forms import RestauranteCreateForm, RestauranteEditForm
 def rest_settings_create(request):
     if(request.user.profile.restaurante is not None):
         messages.error(request, "Ya has creado tu restaurante, ahora solo puedes editarla.")
-        return redirect('cpanel_board')
+        return redirect('settings_rest_view')
     form = RestauranteCreateForm()
     if request.method == 'POST':
         form = RestauranteCreateForm(request.POST, request.FILES)
@@ -18,7 +18,7 @@ def rest_settings_create(request):
             request.user.profile.restaurante = rest
             request.user.profile.save()
             messages.success(request, "¡Felicidades, has creado tu restaurante!")
-            return redirect('cpanel_board')
+            return redirect('settings_rest_view')
         else:
             messages.error(request, "Los datos introducidos no son validos.")
     context = {'form':form}
@@ -26,7 +26,7 @@ def rest_settings_create(request):
 
 def rest_settings_update(request):
     if(request.user.profile.restaurante is None):
-        return redirect('cpanel_board')
+        return redirect('settings_rest_view')
         
     if request.method == 'POST':
         cambios=None
@@ -55,5 +55,8 @@ def rest_settings_update(request):
     context = {'form':form}
     return render(request, 'CPSettingsRestaurante/update.html', context)
 
-def rest_settings_view(request):
+def rest_settings_view(request):    
+    if request.user.profile.restaurante is None:
+        messages.success(request, "¡Ahora que tienes cuenta debes crear tu empresa!")
+        return redirect('settings_rest_create')
     return render(request, 'CPSettingsRestaurante/view.html')
