@@ -8,7 +8,8 @@ from plans.models import Plan
 @login_required(login_url='/account/login')
 def plan_settings_index(request):
     context = {
-        'higher_plans': Plan.objects.filter(pk__gt=request.user.profile.plan.id)
+        'higher_plans': Plan.objects.filter(pk__gt=request.user.profile.plan.id),
+        'plans':Plan.objects.all()
     }
     return render(request, 'CPSettingsPlan/plan_settings_index.html', context)
 

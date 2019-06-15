@@ -3,6 +3,8 @@
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'css/sidebar.css' %}" />
 <link rel="stylesheet" href="{% static 'css/cpanel.css' %}" />
+<link rel="stylesheet" href="{% static 'css/price-table.css' %}" />
+<link rel="stylesheet" href="{% static 'css/price-list.css' %}" />
 {% endblock extra_css %}
 {% block title %}
 - Opciones de Subscripción
@@ -28,59 +30,161 @@
                 {% include 'partials/_alerts.html' %}
             </div>
             <div class="container">
-                <div class="row pt-2">
-                    <div class="col-12">
-                        <section id="breaking-news">
-                            <div class="sitewidth">
-                                <div class="br-title">Opciones de Subscripción</div>
-                            </div>
-                        </section>
-                    </div>
-                    <div class="col-12 col-md-6">
-                    <div class="card border-success mb-3">
-                            <div class="card-header">Tu plan actual: <strong>{{user.profile.plan}}</strong></div>
-                            <div class="card-body text-success">
-                                <h5 class="card-title">¿Qué tienes?</h5>
-                                <ul>                                    
-                                    <li class="list-group-item"> {% if user.profile.plan.max_empresas < 1 %}
-                                        <p class="desc">Podrás crear ubicaciones ilimitadas.</p>
-                                        {% else %}
-                                        <p class="desc">Podrás crear hasta {{user.profile.plan.max_empresas}} ubicación(es)</p>
-                                        {% endif %}
-                                    </li>
-                                </ul>
-                            </div>
+                <div class="col-12">
+                    <section id="breaking-news">
+                        <div class="sitewidth">
+                            <div class="br-title">Opciones de Subscripción</div>
                         </div>
-                    </div>
-                    <div class="col-12 col-md-6">
-                        {% if higher_plans %}
-                        {% for plan in higher_plans %}
-                        <div class="card border-success mb-3">
-                            <div class="card-header"><h6>Plan <strong>{{plan}}</strong> <a href="{% url 'settings_plan_ascend' plan.id %}"><span class="float-right badge badge-success">Adquirir</span></a></h6></div>
-                            <div class="card-body text-success">
-                                <h5 class="card-title">¿Qué tendrás?</h5>
-                                <ul>
-                                    <li class="list-group-item"> 
-                                        {% if plan.max_empresas < 1 %}
-                                        <p class="desc">Podrás crear ubicaciones ilimitadas.</p>
-                                        {% else %}
-                                        <p class="desc">Podrás crear hasta {{plan.max_empresas}} ubicación(es)</p>
-                                        {% endif %}
-                                    </li>
-                                    <li class="list-group-item"> {% if plan.max_empresas < 1 %}
-                                        <p class="desc">Podrás crear restaurantes ilimitados.</p>
-                                        {% else %}
-                                        <p class="desc">Podrás crear hasta {{plan.max_empresas}} restaurante(s)</p>
-                                        {% endif %}
-                                    </li>
-                                </ul>
-                            </div>
+                    </section>
+                </div>
+                <a name="pricing" id="pricing"></a>
+                <ul class="event-list d-md-none">
+                    {% for plan in plans %}
+                    <li>
+                        <div class="plan event-header-{{plan.class_descr}}">
+                            <span class="plan-name">{{plan}}</span>
                         </div>
-                        {% endfor %}
-                        {% endif %}
+                        <div class="info">
+                            {% if plan.recomendado %}
+                            <h2 class="rec-ribbon">{{ plan.recomendado_text }}</h2>
+                            {% endif %}
+                            <!-- Numero de empresas -->
+                            {% if plan.max_empresas < 1 %}
+                            <p class="desc">Restaurantes ilimitados</p>
+                            {% else %}
+                            <p class="desc">Máx. {{plan.max_empresas}} restaurante(s)</p>
+                            {% endif %}
+                            <!-- -->
+                            <!-- Max categorias por restaurante -->
+                            {% if plan.max_categorias == 0 %}
+                            <p class="desc">Sin límite de categorías por restaurante</p>
+                            {% else %}
+                            <p class="desc">Máx. {{plan.max_categorias}} categoría(s) por restaurante</p>
+                            {% endif %}
+                            <!-- Productos en cada categoria -->
+                            {% if plan.max_productos_x_cat == 0 %}
+                            <p class="desc">Sin límite de productos por categoría</p>
+                            {% else %}
+                            <p class="desc">Máx. {{plan.max_productos_x_cat}} productos por categoría</p>
+                            {% endif %}
+                            <!---->
+                            <!-- Tags por producto -->
+                            {% if plan.max_tags_x_prod == 0 %}
+                            <p class="desc">Sin límite de tags en tus productos</p>
+                            {% else %}
+                            <p class="desc">Hasta {{plan.max_tags_x_prod}} tags en cada producto</p>
+                            {% endif %}
+                            <ul>
+                                <li style="width:50%;font-weight:bold;font-size:30px;"><span class="fa fa-money"></span>
+                                    €{{plan.precio_pentera}}.{{plan.precio_pdecimal}}</li>
+                            </ul>
+                        </div>
+                        <div class="social">
+                            <ul>
+                                {% if not uset.is_authenticated %}
+                                <li class="twitter" style="width:34%;"><a href="{% url 'register' %}">¡Crea una
+                                        cuenta!</a></li>
+                                {% endif %}
+                            </ul>
+                        </div>
+                    </li>
+                    {% endfor %}
+                </ul>
+                <!----->
+                <div class="table-responsive d-flex justify-content-center ">
+                    <div class="membership-pricing-table d-none d-md-block">
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <th class="th-price d-flex align-items-center justify-content-center pricing-title">
+                                        <h2><em>Planes<span>.</span></em></h2>
+                                    </th>
+                                    <!-- Titulos de plances -->
+                                    {%for plan in plans%}
+                                    <th class="plan-header plan-header-{{plan.class_descr}}">
+                                        <div class="header-plan-inner">
+                                            {% if plan.recomendado %}
+                                            <span class="recommended-plan-ribbon">{{ plan.recomendado_text }}</span>
+                                            {% endif %}
+                                            <div class="pricing-plan-name">{{plan}}</div>
+                                            <div class="pricing-plan-price">
+                                                <sup>€</sup>{{plan.precio_pentera}}<span>{{plan.precio_pdecimal}}</span>
+                                            </div>
+                                            {% if plan.precio > 0 %}
+                                            <div class="pricing-plan-period">(pago único)</div>
+                                            {% endif %}
+
+                                        </div>
+                                    </th>
+                                    {% endfor %}
+                                </tr>
+                                {% if user.is_authenticated %}
+                                <tr>
+                                    <td></td>
+                                    {% for plan in plans %}
+                                    <td class="action-header">
+                                        {% if plan.id == user.profile.plan.id %}
+                                        <div class="current-plan">
+                                            <p class="font-weight-light text-success">¡Tu plan actual!</p>
+                                        </div>
+                                        {% endif %}
+                                        {% if plan.id > user.profile.plan.id  %}
+                                        <a href="{% url 'settings_plan_ascend' plan.id %}"
+                                            class="btn btn-success text-light">
+                                            ¡Mejorar a este plan!
+                                        </a>
+                                        {% endif %}
+                                    </td>
+                                    {% endfor %}
+                                </tr>
+                                {% endif %}
+                                <tr>
+                                    <td>Permite ubicaciones ilimitadas:</td>
+                                    {% for plan in plans %}
+                                    {% if plan.max_empresas < 1 %}
+                                    <td><i class="fa fa-check"></i></td>
+                                    {% else %}
+                                    <td><i class="fa fa-ban"></i></td>
+                                    {% endif %}
+                                    {% endfor %}
+                                </tr>
+                                <tr>
+                                    <td>Categorías por restaurante:</td>
+                                    {% for plan in plans %}
+                                    {% if plan.max_categorias == 0 %}
+                                    <td><span>Sin límite</span></td>
+                                    {% else %}
+                                    <td><span>{{plan.max_categorias}}</span></td>
+                                    {% endif %}
+                                    {% endfor %}
+                                </tr>
+                                <tr>
+                                    <td>Productos máximos por categoría:</td>
+                                    {% for plan in plans %}
+                                    {% if plan.max_productos_x_cat == 0 %}
+                                    <td><span>Sin límite</span></td>
+                                    {% else %}
+                                    <td><span>Hasta {{plan.max_productos_x_cat}} productos</span></td>
+                                    {% endif %}
+                                    {% endfor %}
+                                </tr>
+                                <tr>
+                                    <td>Tags en cada producto:</td>
+                                    {% for plan in plans %}
+                                    {% if plan.max_tags_x_prod == 0 %}
+                                    <td><span>Sin límite</span></td>
+                                    {% else %}
+                                    <td><span>Hasta {{plan.max_tags_x_prod}} tags</span></td>
+                                    {% endif %}
+                                    {% endfor %}
+                                </tr>
+
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
+            <!---------------------------->
         </div>
     </div>
 </div>
