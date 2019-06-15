@@ -406,7 +406,7 @@
 						</div>
 					</div>
 					<div class="col-12 mb-3">
-						<button type="submit" class="btn btn-primary btn-block">Filtrar</button>
+						<button type="submit" id="search_btn" class="btn btn-primary btn-block">Filtrar</button>
 					</div>
 				</form>
 			</div>
@@ -462,6 +462,10 @@
 			navigator.geolocation.getCurrentPosition(function (position) {
 				$('#current_lat').val(position.coords.latitude);
 				$('#current_lon').val(position.coords.longitude);
+
+				if(window.location.href.indexOf('&current_lat=')==-1 || window.location.href.indexOf('&current_lon=')==-1){
+					$('#search_btn').trigger('click')
+				}
 			});
 		}
 	</script>
@@ -470,26 +474,46 @@
 
 	//Initialize
 	function initMap() {
+		if($("#map").length){
 		map = new google.maps.Map(document.getElementById('map'), {
 			zoom: 15
 		});
-		autoCenter();
+		autoCenter(map);
+		drawMarkers(map);
+		}
 	}
 
 	//Center
-	function autoCenter() {
+	function autoCenter(mymap) {
 		if (navigator.geolocation) {
 			navigator.geolocation.getCurrentPosition(function (position) {
 				$('#current_lat').val(position.coords.latitude);
 				$('#current_lon').val(position.coords.longitude);
 				initialLocation = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
-				map.setCenter(initialLocation);
+				mymap.setCenter(initialLocation);
 			});
 		}
 	}
 
 	//markers
-	var markers = [];
+	function drawMarkers(mymap){	
+		var markers=[];	
+		{% for ub in direcs %}
+		markers.push(new google.maps.Marker({
+			position: new google.maps.LatLng({{ub.getTxtLat}},{{ub.getTxtLong}}),
+			title: '{{ub.restaurante}}',
+			animation: google.maps.Animation.DROP,
+			icon: {
+			url: 'http://localhost:8000{{MEDIA_URL}}{{ub.restaurante.logo.url}}', // url
+			scaledSize: new google.maps.Size(30, 30), // size
+			}
+		}));
+		{% endfor %}
+		markers.forEach(function(marker){
+			console.log(marker)
+			marker.setMap(mymap);
+		})
+	}
 </script>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDbA0mJ4aoUWtt1svmeoPvVJ-bMFwQyK8k&callback=initMap" async
 	defer></script>
@@ -509,7 +533,7 @@
 
 		$("#slider2").slider({
 			animate: true,
-			value: {% if request.GET.r %}{{request.GET.r}}{%else%}5{%endif%},
+			value: {% if request.GET.r %}{{request.GET.r}}{%else%}0{%endif%},
 			min: 0,
 			max: 100,
 			step: 1,
@@ -520,7 +544,7 @@
 
 		//Added, set initial value.
 		$("#slider").val({% if request.GET.pm %}{{request.GET.pm}}{%else%}0{%endif%});
-		$("#slider2").val({% if request.GET.r %}{{request.GET.r}}{%else%}5{%endif%});
+		$("#slider2").val({% if request.GET.r %}{{request.GET.r}}{%else%}0{%endif%});
 
 		update();
 	});
@@ -539,7 +563,7 @@
 		}else{
 			$('#slider a').html('<label><span class="fa fa-chevron-left"></span> ' + "{% if request.GET.pm %}{{request.GET.pm}}{%else%}0{%endif%}" +
 			' <span class="fa fa-chevron-right"></span></label>');
-			$('#slider2 a').html('<label><span class="fa fa-chevron-left"></span> ' + "{% if request.GET.r %}{{request.GET.r}}{%else%}10{%endif%}" +
+			$('#slider2 a').html('<label><span class="fa fa-chevron-left"></span> ' + "{% if request.GET.r %}{{request.GET.r}}{%else%}0{%endif%}" +
 			' <span class="fa fa-chevron-right"></span></label>');
 		}
 		

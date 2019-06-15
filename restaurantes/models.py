@@ -24,7 +24,13 @@ class Direccion(models.Model):
 
     def __str__(self):
         return self.direccion
-    
+
+    def getTxtLat(self):
+        return str(self.lat)
+
+    def getTxtLong(self):
+        return str(self.long)
+        
     def en_radio(self, distance, center_lat, center_long):
         earth_r = decimal.Decimal(6371e3)
         pi=(22/7)
