@@ -34,6 +34,12 @@ def search(request):
                     near_rest_ids.append(plato.categoria.restaurante.id)
                     near_ubs.append(direc)
         all_results = all_results.filter(categoria__restaurante__id__in=near_rest_ids)
+    else:
+        for plato in all_results:
+            for direc in plato.categoria.restaurante.direcciones.filter(restaurante_id=plato.categoria.restaurante.id):
+                near_rest_ids.append(plato.categoria.restaurante.id)
+                near_ubs.append(direc)
+        all_results = all_results.filter(categoria__restaurante__id__in=near_rest_ids)
     
     context={
         'results': all_results,

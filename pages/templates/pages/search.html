@@ -499,15 +499,20 @@
 	function drawMarkers(mymap){	
 		var markers=[];	
 		{% for ub in direcs %}
-		markers.push(new google.maps.Marker({
+		var mark = new google.maps.Marker({
 			position: new google.maps.LatLng({{ub.getTxtLat}},{{ub.getTxtLong}}),
 			title: '{{ub.restaurante}}',
 			animation: google.maps.Animation.DROP,
 			icon: {
 			url: 'http://localhost:8000{{MEDIA_URL}}{{ub.restaurante.logo.url}}', // url
 			scaledSize: new google.maps.Size(30, 30), // size
-			}
-		}));
+			},
+			url: "https://www.google.es/maps/@{{ub.getTxtLat}},{{ub.getTxtLong}}z"
+		})
+		markers.push(mark);
+		google.maps.event.addListener(mark, 'click', function() {
+			 window.open(this.url,'_blank');
+		});
 		{% endfor %}
 		markers.forEach(function(marker){
 			console.log(marker)
