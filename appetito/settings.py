@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'CPSettingsRestaurante.apps.CpsettingsrestauranteConfig',    
     'CPSettingsLocations.apps.CpsettingslocationsConfig',
     'CPSettingsCarta.apps.CpsettingscartaConfig',
+    #PDF
     #Others
     'crispy_forms',
     'django_template_maths',

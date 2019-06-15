@@ -3,6 +3,17 @@ from plans.models import Plan
 from cartas.models import Plato, Tag
 from restaurantes.models import Restaurante
 from django.db.models import Q
+
+##PDF
+from io import BytesIO
+from xhtml2pdf import pisa
+from django.template.loader import get_template
+from django.template import Context
+from django.http import HttpResponse
+from cgi import escape
+from django.conf import settings
+import os
+##OtroPDF
 # Create your views here.
 
 def about(request):
@@ -62,3 +73,34 @@ def restaurante(request, id):
             'exist': False
         }
     return render(request, 'pages/restaurante.html', context)
+
+def respdf(request, id):
+    exist = Restaurante.objects.filter(pk=id).exists()
+    if(exist):
+        rest = Restaurante.objects.get(pk=id)
+    else:
+        rest = None
+    return render_to_pdf(
+            'pages/restaurante_pdf.html',
+            {
+                'pagesize':'A4',
+                'restaurante': rest,
+                'exist': exist
+            }
+        )
+
+def render_to_pdf(template_src, context_dict):
+    template = get_template(template_src)
+    context = context_dict
+    html = template.render(context)
+    result = BytesIO()
+
+    pdf = pisa.pisaDocument(BytesIO(html.encode("UTF-8")), dest=result, link_callback=fetch_resources)
+    if not pdf.err:
+        return HttpResponse(result.getvalue(), content_type='application/pdf')
+    return HttpResponse('We had some errors<pre>%s</pre>' % escape(html))
+
+def fetch_resources(uri, rel):
+    path = os.path.join(settings.MEDIA_ROOT, uri.replace(settings.MEDIA_URL, ""))
+
+    return path

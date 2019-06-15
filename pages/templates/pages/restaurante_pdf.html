@@ -1,6 +1,11 @@
-{% extends "base.html" %}
 {% load static %}
-{% block extra_css %}
+<html>
+<head>
+<link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" />
+	<link rel="stylesheet" href="{% static 'css/font-awesome.min.css' %}" />
+	<link rel="stylesheet" href="{% static 'css/flaticon.css' %}" />
+	<link rel="stylesheet" href="{% static 'css/style.css' %}" />
+	<link rel="stylesheet" href="{% static 'css/animate.css' %}" />
 <style>
     .card {
         padding-top: 20px;
@@ -304,21 +309,9 @@
         position: inherit;
     }
 </style>
-{% endblock extra_css %}
-{% block title %}
-{% if exist %}- {{restaurante.nombre}}{%endif%}
-{% endblock title %}
-{% block page-info %}
-<section class="page-top-info set-bg" data-setbg="{% static 'img/page-top-bg/1.jpg' %}">
-    <div class="ptf-center">
-        <div class="container d-inline-flex">
-            {% if exist %}<h2>{{restaurante.nombre}}</h2>{%else%} <h2>No encontrado</h2> {%endif%}
-        </div>
-    </div>
-</section>
-{% endblock page-info %}
-{% block content %}
-<div class="container">
+</head>
+<body>
+    <div class="container">
     <div class="row">
         {% if exist %}
         <div class="card hovercard col-12">
@@ -393,4 +386,5 @@
         {%endif%}
     </div>
 </div>
-{% endblock content %}
+</body>
+</html>
