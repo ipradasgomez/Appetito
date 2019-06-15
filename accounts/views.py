@@ -2,6 +2,8 @@ from django.shortcuts import render, redirect, HttpResponse
 from django.contrib import messages, auth
 from django.contrib.auth.models import User
 from django.views.decorators.csrf import csrf_exempt
+from django.core.mail import send_mail
+from django.conf import settings
 # Create your views here.
 
 @csrf_exempt
@@ -35,6 +37,7 @@ def register(request):
                             auth.login(request, user)
                             request.session.set_expiry(0)
                             messages.success(request, '¡Bienvenido a Appetito! Este es tu panel de control... ¡Disfrutalo!')
+                            email(user.username)
                             return redirect('cpanel_board')
                 else:
                     messages.error(request, 'Las contraseñas no coinciden')
@@ -46,6 +49,13 @@ def register(request):
             return render(request, 'accounts/register.html', {'nav_register':'active'})
     else:
         return redirect('landing')
+
+def email(user):
+    subject = '¡Bienvenido a Appetito!'
+    message = 'Nos agrada recibirle como nuevo usuario de Appetito, '+user+'.'
+    email_from = settings.EMAIL_HOST_USER
+    recipient_list = ['appetito2daw@gmail.com',]
+    send_mail( subject, message, email_from, recipient_list )
 
 def login(request):
     if not request.user.is_authenticated:
