@@ -72,9 +72,10 @@
 	}
 
 	.event-list>li>.info>.desc {
-		font-size: 13pt;
+		font-size: 13px;
 		font-weight: 300;
 		margin: 0px;
+		padding:0px;
 	}
 
 	.event-list>li>.info>ul,
@@ -430,8 +431,7 @@
 							<img alt="{{plato}}" title="{{plato}}" src="{{MEDIA_URL}}{{plato.foto.url}}" />
 							<div class="info">
 								<h2 class="title">{{plato}}: {{plato.precio}} €</h2>
-								<p class="desc">{{plato.descripcion}}<em>{{plato.lista_ingredientes}}</em></p>
-								<p class="desc">{{plato.categoria.restaurante}}</p>
+								<p class="desc">{{plato.descripcion}}<em>{{plato.lista_ingredientes}}</em>
 								<ul>
 									<li style="width:50%;">{{plato.categoria.restaurante.telefono}}</li>
 									<li style="width:50%;"><a

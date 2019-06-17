@@ -10,7 +10,7 @@ class Restaurante(models.Model):
     logo = models.ImageField(upload_to='uploaded_img/logos/', verbose_name='Logotipo')
     banner = models.ImageField(upload_to='uploaded_img/restaurants/', verbose_name='Foto de cabecera')
     telefono = models.IntegerField(verbose_name='Teléfono de contacto', blank=True, default=None, null=True)
-    email = models.EmailField(max_length=15, verbose_name='Email de contacto',blank=True, default='')
+    email = models.EmailField(max_length=200, verbose_name='Email de contacto',blank=True, default='')
 
     def __str__(self):
         return self.nombre
